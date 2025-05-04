@@ -322,7 +322,7 @@
       shotType: Hitscan
   - type: MagazineVisuals
     magState: mag
-    steps: 4
+    steps: 5
     zeroVisible: false
   - type: Appearance
   - type: GenericVisualizer
