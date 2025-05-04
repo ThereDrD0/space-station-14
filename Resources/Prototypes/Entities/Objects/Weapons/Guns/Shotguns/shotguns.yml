@@ -181,6 +181,7 @@
   parent: [BaseWeaponShotgun, BaseGunWieldable, BaseSecurityContraband]
   id: WeaponShotgunKammerer
   description: An old yet faithful design, and a favorite among irregular forces of many worlds. Uses .50 shotgun shells.
+  categories: [ HideSpawnMenu ]
   components: # intend for Kammerer to have tighter choke for slower fire rate and/or manual cycling
   - type: Item
     size: Normal
