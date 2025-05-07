@@ -4,6 +4,17 @@
   name: cigar case
   description: A case for holding your cigars when you are not smoking them.
   components:
+  # Sunrise added start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_Sunrise/Items/Handling/Cases/pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_Sunrise/Items/Handling/Cases/drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_Sunrise/Items/Handling/Cases/drop.ogg
+  # Sunrise added end
   - type: Sprite
     sprite: Objects/Consumable/Smokeables/Cigars/case.rsi
     layers:
@@ -36,6 +47,10 @@
       map: ["cigar8"]
       visible: false
   - type: Storage
+    # Sunrise added start
+    storageOpenSound: /Audio/_Sunrise/Items/Cases/open.ogg
+    storageCloseSound: /Audio/_Sunrise/Items/Cases/close.ogg
+    # Sunrise added end
     grid:
     - 0,0,3,1
   - type: Item
