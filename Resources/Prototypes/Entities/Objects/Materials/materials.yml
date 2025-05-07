@@ -232,6 +232,17 @@
   name: wood
   suffix: Full
   components:
+  # Sunrise added start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_Sunrise/Items/Handling/Wood/pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_Sunrise/Items/Handling/Wood/drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_Sunrise/Items/Handling/Wood/drop.ogg
+  # Sunrise added end
   - type: Material
   - type: PhysicalComposition
     materialComposition:
