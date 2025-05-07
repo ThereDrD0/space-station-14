@@ -153,6 +153,15 @@
   - type: Log
     spawnedPrototype: SheetGlass1
     spawnCount: 1
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_Sunrise/Items/Handling/Glass/pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_Sunrise/Items/Handling/Glass/drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_Sunrise/Items/Handling/Glass/drop.ogg
 
 - type: entity
   name: plaststeelcap
