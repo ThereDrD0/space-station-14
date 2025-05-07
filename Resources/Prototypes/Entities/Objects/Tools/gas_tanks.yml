@@ -8,22 +8,22 @@
     sound:
       path: /Audio/_Sunrise/Items/Handling/GasTanks/pickup.ogg
       params:
-        volume: -4
+        volume: -2
   - type: EmitSoundOnDrop
     sound:
       path: /Audio/_Sunrise/Items/Handling/GasTanks/drop.ogg
       params:
-        volume: -4
+        volume: -2
   - type: EmitSoundOnLand
     sound:
       path: /Audio/_Sunrise/Items/Handling/GasTanks/drop.ogg
       params:
-        volume: -4
+        volume: -2
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/_Sunrise/Items/Handling/GasTanks/drop.ogg
       params:
-        volume: -4
+        volume: -2
   # Sunrise added end
   - type: Sprite
     sprite: Objects/Tanks/generic.rsi
