@@ -4,12 +4,29 @@
   name: backpack
   description: You wear this on your back and put items into it.
   components:
+  # Sunrise added start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_Sunrise/Items/Handling/Backpacks/pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_Sunrise/Items/Handling/Backpacks/drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_Sunrise/Items/Handling/Backpacks/drop.ogg
+  # Sunrise added end
   - type: Sprite
     sprite: Clothing/Back/Backpacks/backpack.rsi
     state: icon
   - type: Item
     size: Huge
   - type: Clothing
+    # Sunrise added start
+    equipSound:
+      path: /Audio/_Sunrise/Items/Equip/Backpacks/sound1.ogg
+      params:
+        maxDistance: 3
+    # Sunrise added end
     quickEquip: false
     slots:
     - back
