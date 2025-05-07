@@ -1747,23 +1747,10 @@
 
 - type: entity
   name: glasstle
-  parent: FoodProduceBase
+  parent: [GlassSounds, FoodProduceBase] # Sunrise edit
   id: FoodGlasstle
   description: A fragile crystal plant with lot of spiky thorns.
   components:
-  # Sunrise added start
-  - type: EmitSoundOnPickup
-    sound:
-      path: /Audio/_Sunrise/Items/Handling/Glass/pickup.ogg
-      params:
-        volume: -2
-  - type: EmitSoundOnDrop
-    sound:
-      path: /Audio/_Sunrise/Items/Handling/Glass/drop.ogg
-  - type: EmitSoundOnLand
-    sound:
-      path: /Audio/_Sunrise/Items/Handling/Glass/drop.ogg
-  # Sunrise added end
   - type: Item
     size: Small
     sprite: Objects/Specific/Hydroponics/glasstle.rsi

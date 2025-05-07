@@ -2,19 +2,8 @@
   id: MedalCase
   name: medal case
   description: Case with medals.
-  parent: [ BaseStorageItem, BaseBagOpenClose, BaseCommandContraband ]
+  parent: [ CaseSounds, BaseStorageItem, BaseBagOpenClose, BaseCommandContraband ] # Sunrise edit
   components:
-  # Sunrise added start
-  - type: EmitSoundOnPickup
-    sound:
-      path: /Audio/_Sunrise/Items/Handling/Cases/pickup.ogg
-  - type: EmitSoundOnDrop
-    sound:
-      path: /Audio/_Sunrise/Items/Handling/Cases/drop.ogg
-  - type: EmitSoundOnLand
-    sound:
-      path: /Audio/_Sunrise/Items/Handling/Cases/drop.ogg
-  # Sunrise added end
   - type: Sprite
     sprite: Objects/Storage/medalcase.rsi
     layers:
@@ -27,10 +16,6 @@
     sprite: Objects/Storage/medalcase.rsi
     size: Normal
   - type: Storage
-    # Sunrise added start
-    storageOpenSound: /Audio/_Sunrise/Items/Cases/open.ogg
-    storageCloseSound: /Audio/_Sunrise/Items/Cases/close.ogg
-    # Sunrise added end
     grid:
     - 0,0,7,1
     whitelist:

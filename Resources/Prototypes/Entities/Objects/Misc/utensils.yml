@@ -10,21 +10,10 @@
   - type: SpaceGarbage
 
 - type: entity
-  parent: UtensilBase
+  parent: [PlasticSounds, UtensilBase] # Sunrise edit
   id: UtensilBasePlastic
   abstract: true
   components:
-  # Sunrise added start
-  - type: EmitSoundOnPickup
-    sound:
-      path: /Audio/_Sunrise/Items/Handling/Plastic/pickup.ogg
-  - type: EmitSoundOnDrop
-    sound:
-      path: /Audio/_Sunrise/Items/Handling/Plastic/drop.ogg
-  - type: EmitSoundOnLand
-    sound:
-      path: /Audio/_Sunrise/Items/Handling/Plastic/drop.ogg
-  # Sunrise added end
   - type: Utensil
     breakChance: 0.20
   - type: StaticPrice

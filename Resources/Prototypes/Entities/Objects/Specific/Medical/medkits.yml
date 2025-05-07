@@ -1,28 +1,13 @@
 - type: entity
   name: first aid kit
   description: It's an emergency medical kit for those serious boo-boos.
-  parent: BaseStorageItem
+  parent: [CaseSounds, BaseStorageItem] # Sunrise edit
   id: Medkit
   components:
-  # Sunrise added start
-  - type: EmitSoundOnPickup
-    sound:
-      path: /Audio/_Sunrise/Items/Handling/Cases/pickup.ogg
-  - type: EmitSoundOnDrop
-    sound:
-      path: /Audio/_Sunrise/Items/Handling/Cases/drop.ogg
-  - type: EmitSoundOnLand
-    sound:
-      path: /Audio/_Sunrise/Items/Handling/Cases/drop.ogg
-  # Sunrise added end
   - type: Sprite
     sprite: Objects/Specific/Medical/firstaidkits.rsi
     state: firstaid
   - type: Storage
-    # Sunrise added start
-    storageOpenSound: /Audio/_Sunrise/Items/Cases/open.ogg
-    storageCloseSound: /Audio/_Sunrise/Items/Cases/close.ogg
-    # Sunrise added end
     maxItemSize: Small
     grid:
     - 0,0,3,1

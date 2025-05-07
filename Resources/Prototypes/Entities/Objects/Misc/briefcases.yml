@@ -1,27 +1,12 @@
 - type: entity
-  parent: BaseStorageItem
+  parent: [CaseSounds, BaseStorageItem] # Sunrise edit
   id: BriefcaseBase
   description: Useful for carrying items in your hands.
   abstract: true
   components:
-  # Sunrise added start
-  - type: EmitSoundOnPickup
-    sound:
-      path: /Audio/_Sunrise/Items/Handling/Cases/pickup.ogg
-  - type: EmitSoundOnDrop
-    sound:
-      path: /Audio/_Sunrise/Items/Handling/Cases/drop.ogg
-  - type: EmitSoundOnLand
-    sound:
-      path: /Audio/_Sunrise/Items/Handling/Cases/drop.ogg
-  # Sunrise added end
   - type: Item
     size: Ginormous
   - type: Storage
-    # Sunrise added start
-    storageOpenSound: /Audio/_Sunrise/Items/Cases/open.ogg
-    storageCloseSound: /Audio/_Sunrise/Items/Cases/close.ogg
-    # Sunrise added end
     grid:
     - 0,0,5,3
   - type: Tag

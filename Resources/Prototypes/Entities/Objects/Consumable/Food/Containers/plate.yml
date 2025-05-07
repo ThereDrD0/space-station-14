@@ -151,21 +151,10 @@
 
 - type: entity
   name: plastic plate
-  parent: BaseItem
+  parent: [PlasticSounds, BaseItem] # Sunrise edit
   id: FoodPlateSmallPlastic
   description: A blue plastic plate, excellent for slices of birthday cake.
   components:
-  # Sunrise added start
-  - type: EmitSoundOnPickup
-    sound:
-      path: /Audio/_Sunrise/Items/Handling/Plastic/pickup.ogg
-  - type: EmitSoundOnDrop
-    sound:
-      path: /Audio/_Sunrise/Items/Handling/Plastic/drop.ogg
-  - type: EmitSoundOnLand
-    sound:
-      path: /Audio/_Sunrise/Items/Handling/Plastic/drop.ogg
-  # Sunrise added end
   - type: Sprite
     sprite: Objects/Consumable/Food/plates.rsi
     state: plate-small-plastic
