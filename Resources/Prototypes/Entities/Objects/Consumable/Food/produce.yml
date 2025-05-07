@@ -1755,6 +1755,8 @@
   - type: EmitSoundOnPickup
     sound:
       path: /Audio/_Sunrise/Items/Handling/Glass/pickup.ogg
+      params:
+        volume: -2
   - type: EmitSoundOnDrop
     sound:
       path: /Audio/_Sunrise/Items/Handling/Glass/drop.ogg
