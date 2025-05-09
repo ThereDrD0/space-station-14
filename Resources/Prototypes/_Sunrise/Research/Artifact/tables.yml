@@ -55,7 +55,7 @@
       weight: 3
     - id: SunriseEffectRandomTransformation
       weight: 1
-    - id: EffectMagnetUltra
+    - id: SunriseEffectMagnetUltra
       weight: 2
     - id: SunriseEffectShiftedAsciiTableAccent
       weight: 3
