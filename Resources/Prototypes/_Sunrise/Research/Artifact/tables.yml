@@ -40,25 +40,25 @@
   table: !type:GroupSelector
     children:
     - id: SunriseEffectShuffleUltra
-      weight: 1
+      weight: 2
     - id: SunriseEffectPolyChair
-      weight: 2
+      weight: 3
     - id: SunriseEffectPolyWatermelon
-      weight: 2
+      weight: 3
     - id: SunriseEffectPolyAppendix
-      weight: 2
+      weight: 3
     - id: SunriseEffectPolyDisposal
-      weight: 2
+      weight: 3
     - id: SunriseEffectPolyTable
-      weight: 2
+      weight: 3
     - id: SunriseEffectSwap
-      weight: 2
+      weight: 3
     - id: SunriseEffectRandomTransformation
       weight: 1
     - id: EffectMagnetUltra
-      weight: 1
-    - id: SunriseEffectShiftedAsciiTableAccent
       weight: 2
+    - id: SunriseEffectShiftedAsciiTableAccent
+      weight: 3
 
 # Ванильная, которую я чуть подрезал
 - type: entityTable
