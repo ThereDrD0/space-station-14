@@ -4,6 +4,7 @@
   id: SunriseEffectHeal
   parent: BaseXenoArtifactEffect
   description: artifact-effect-hint-data-deleted
+  categories: [ HideSpawnMenu ]
   components:
   - type: XAEDamageInArea
     damageChance: 1
@@ -20,6 +21,7 @@
   id: SunriseArtifactGenerateEnergy
   parent: BaseOneTimeXenoArtifactEffect
   description: artifact-effect-hint-data-deleted
+  categories: [ HideSpawnMenu ]
   components:
   - type: XAEApplyComponents
     components:
@@ -36,6 +38,7 @@
   id: SunriseArtifactWandering
   parent: BaseOneTimeXenoArtifactEffect
   description: artifact-effect-hint-data-deleted
+  categories: [ HideSpawnMenu ]
   components:
   - type: XAEApplyComponents
     components:
@@ -49,6 +52,7 @@
   id: SunriseArtifactThrowThingsAround
   parent: BaseXenoArtifactEffect
   description: artifact-effect-hint-data-deleted
+  categories: [ HideSpawnMenu ]
   components:
   - type: XAEThrowThingsAround
 
@@ -56,6 +60,7 @@
   id: SunriseArtifactKnock
   parent: BaseXenoArtifactEffect
   description: artifact-effect-hint-data-deleted
+  categories: [ HideSpawnMenu ]
   components:
   - type: XAEKnock
   - type: XAELightFlicker
@@ -64,6 +69,7 @@
   id: SunriseArtifactEffectJunkSpawn
   parent: BaseXenoArtifactEffect
   description: artifact-effect-hint-data-deleted
+  categories: [ HideSpawnMenu ]
   components:
   - type: XAEApplyComponents
     applyIfAlreadyHave: true
@@ -83,6 +89,7 @@
   id: SunriseArtifactShatterWindows
   parent: BaseXenoArtifactEffect
   description: artifact-effect-hint-data-deleted
+  categories: [ HideSpawnMenu ]
   components:
   - type: XenoArtifactNode
     maxDurability: 3
@@ -102,6 +109,7 @@
   id: SunriseEffectBoltAirlocks
   parent: BaseXenoArtifactEffect
   description: artifact-effect-hint-data-deleted
+  categories: [ HideSpawnMenu ]
   components:
   - type: ArtifactBoltAirlocks
 
@@ -109,6 +117,7 @@
   id: SunriseArtifactHunger
   parent: BaseXenoArtifactEffect
   description: artifact-effect-hint-data-deleted
+  categories: [ HideSpawnMenu ]
   components:
   - type: ArtifactModifyHunger
 
@@ -116,6 +125,7 @@
   id: SunriseEffectThirst
   parent: BaseXenoArtifactEffect
   description: artifact-effect-hint-data-deleted
+  categories: [ HideSpawnMenu ]
   components:
   - type: ArtifactModifyThirst
 
@@ -123,6 +133,7 @@
   id: SunriseEffectTeslaDischarge
   parent: BaseXenoArtifactEffect
   description: artifact-effect-hint-data-deleted
+  categories: [ HideSpawnMenu ]
   components:
   - type: XAEApplyComponents
     components:
@@ -139,6 +150,7 @@
   id: SunriseEffectSpawnEvilTwin
   parent: BaseXenoArtifactEffect
   description: artifact-effect-hint-data-deleted
+  categories: [ HideSpawnMenu ]
   components:
   - type: ArtifactStartGameRule
     rules:
@@ -148,6 +160,7 @@
   id: SunriseArtifactTeleport
   parent: BaseXenoArtifactEffect
   description: artifact-effect-hint-data-deleted
+  categories: [ HideSpawnMenu ]
   components:
   - type: XAEApplyComponents
     components:
@@ -157,6 +170,7 @@
   id: SunriseArtifactEmp
   parent: BaseXenoArtifactEffect
   description: artifact-effect-hint-data-deleted
+  categories: [ HideSpawnMenu ]
   components:
   - type: XenoArtifactNode
     maxDurability: 5
@@ -169,6 +183,7 @@
   id: SunriseEffectIgnite
   parent: BaseXenoArtifactEffect
   description: artifact-effect-hint-data-deleted
+  categories: [ HideSpawnMenu ]
   components:
   - type: XAEIgnite
     range: 7
@@ -203,6 +218,7 @@
   id: SunriseEffectShuffleUltra
   parent: BaseXenoArtifactEffect
   description: artifact-effect-hint-data-deleted
+  categories: [ HideSpawnMenu ]
   components:
   - type: XAEShuffle
     radius: 70
@@ -211,6 +227,7 @@
   id: SunriseEffectPolyChair
   parent: BaseXenoArtifactEffect
   description: artifact-effect-hint-data-deleted
+  categories: [ HideSpawnMenu ]
   components:
   - type: XAEPolymorph
     polymorphPrototypeName: SunriseEffectChair
@@ -219,6 +236,7 @@
   id: SunriseEffectPolyWatermelon
   parent: BaseXenoArtifactEffect
   description: artifact-effect-hint-data-deleted
+  categories: [ HideSpawnMenu ]
   components:
   - type: XAEPolymorph
     polymorphPrototypeName: SunriseEffectWatermelon
@@ -227,6 +245,7 @@
   id: SunriseEffectPolyAppendix
   parent: BaseXenoArtifactEffect
   description: artifact-effect-hint-data-deleted
+  categories: [ HideSpawnMenu ]
   components:
   - type: XAEPolymorph
     polymorphPrototypeName: SunriseEffectAppendix
@@ -235,6 +254,7 @@
   id: SunriseEffectPolyDisposal
   parent: BaseXenoArtifactEffect
   description: artifact-effect-hint-data-deleted
+  categories: [ HideSpawnMenu ]
   components:
   - type: XAEPolymorph
     polymorphPrototypeName: SunriseEffectDisposal
@@ -243,6 +263,7 @@
   id: SunriseEffectPolyTable
   parent: BaseXenoArtifactEffect
   description: artifact-effect-hint-data-deleted
+  categories: [ HideSpawnMenu ]
   components:
   - type: XAEPolymorph
     polymorphPrototypeName: SunriseEffectTable
@@ -251,6 +272,7 @@
   id: SunriseEffectSwap
   parent: BaseXenoArtifactEffect
   description: artifact-effect-hint-data-deleted
+  categories: [ HideSpawnMenu ]
   components:
   - type: ArtifactWhitelistSwap
     targetWhitelist:
@@ -261,6 +283,7 @@
   id: SunriseEffectRandomTransformation
   parent: BaseXenoArtifactEffect
   description: artifact-effect-hint-data-deleted
+  categories: [ HideSpawnMenu ]
   components:
   - type: ArtifactRandomTransformation
     prototypeBlacklist:
@@ -276,6 +299,7 @@
   id: SunriseEffectMagnetUltra
   parent: BaseXenoArtifactEffect
   description: artifact-effect-hint-data-deleted
+  categories: [ HideSpawnMenu ]
   components:
   - type: XAEApplyComponents
     components:
@@ -290,6 +314,7 @@
   id: SunriseEffectShiftedAsciiTableAccent
   parent: BaseXenoArtifactEffect
   description: artifact-effect-hint-data-deleted
+  categories: [ HideSpawnMenu ]
   components:
   - type: AddComponentsInRadius
     whitelist:
