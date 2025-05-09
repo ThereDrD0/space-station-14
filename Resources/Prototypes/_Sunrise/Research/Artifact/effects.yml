@@ -77,6 +77,7 @@
     components:
     - type: EntityTableSpawner
       deleteSpawnerAfterSpawn: false
+      offset: 5
       table: !type:GroupSelector
         rolls: !type:RangeNumberSelector
           range: 10, 40
