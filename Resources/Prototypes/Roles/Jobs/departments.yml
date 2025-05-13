@@ -2,7 +2,7 @@
   id: Cargo
   name: department-Cargo
   description: department-Cargo-description
-  color: "#A46106"
+  color: "#9E6A34" # Sunrise edit
   roles:
   - CargoTechnician
   - Quartermaster
@@ -57,7 +57,7 @@
   id: Command
   name: department-Command
   description: department-Command-description
-  color: "#052EED" # Sunrise-Edit
+  color: "#436BAD" # Sunrise-Edit 2
   roles:
   - Captain
   - ChiefEngineer
@@ -84,7 +84,7 @@
   id: Engineering
   name: department-Engineering
   description: department-Engineering-description
-  color: "#EFB341"
+  color: "#FDA55E" # Sunrise edit
   weight: 10  # Sunrise-weights
   roles:
   - AtmosphericTechnician
@@ -97,7 +97,7 @@
   id: Medical
   name: department-Medical
   description: department-Medical-description
-  color: "#52B4E9"
+  color: "#4494C8" # Sunrise edit
   roles:
   - Chemist
   - ChiefMedicalOfficer
@@ -112,7 +112,7 @@
   id: Security
   name: department-Security
   description: department-Security-description
-  color: "#DE3A3A"
+  color: "#BF5454" # Sunrise edit
   weight: 20
   roles:
   - HeadOfSecurity
@@ -128,7 +128,7 @@
   id: Science
   name: department-Science
   description: department-Science-description
-  color: "#D381C9"
+  color: "#984EB4" # Sunrise edit
   roles:
   - ResearchDirector
   - SeniorResearcher  # Sunrise-Senior
@@ -159,7 +159,7 @@
   id: Specific
   name: department-Specific
   description: department-Specific-description
-  color: "#9FED58"
+  color: "#969696" # Sunrise edit
   weight: 5  # Sunrise-weights
   roles:
   - Boxer
