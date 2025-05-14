@@ -131,25 +131,25 @@ public abstract partial class SharedGhostSystem
     /// </summary>
     [Serializable, NetSerializable]
     public sealed class GhostWarpsResponseEvent(
-        HashSet<GhostWarpPlayer> players,
-        HashSet<GhostWarpPlace> places,
-        HashSet<GhostWarpGlobalAntagonist> antagonists) : EntityEventArgs
+        List<GhostWarpPlayer> players,
+        List<GhostWarpPlace> places,
+        List<GhostWarpGlobalAntagonist> antagonists) : EntityEventArgs
     {
 
         /// <summary>
         /// A list of players to teleport.
         /// </summary>
-        public readonly HashSet<GhostWarpPlayer> Players = players;
+        public readonly List<GhostWarpPlayer> Players = players;
 
         /// <summary>
         /// A list of warp points.
         /// </summary>
-        public readonly HashSet<GhostWarpPlace> Places = places;
+        public readonly List<GhostWarpPlace> Places = places;
 
         /// <summary>
         /// A list of antagonists to teleport.
         /// </summary>
-        public readonly HashSet<GhostWarpGlobalAntagonist> Antagonists = antagonists;
+        public readonly List<GhostWarpGlobalAntagonist> Antagonists = antagonists;
     }
 
     public interface INamedGhostWarp

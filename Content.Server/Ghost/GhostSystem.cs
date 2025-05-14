@@ -338,9 +338,9 @@ namespace Content.Server.Ghost
             }
 
             // Sunrise edit start - для красивой гост меню
-            var response = new GhostWarpsResponseEvent(GetPlayerWarps().ToHashSet(),
-                GetLocationWarps().ToHashSet(),
-                GetAntagonistWarps().ToHashSet());
+            var response = new GhostWarpsResponseEvent(GetPlayerWarps().ToList(),
+                GetLocationWarps().ToList(),
+                GetAntagonistWarps().ToList());
             // Sunrise edit end
 
             RaiseNetworkEvent(response, args.SenderSession.Channel);

@@ -6,23 +6,22 @@ namespace Content.Client._Sunrise.UserInterface.Systems.Ghost.Controls;
 
 public sealed partial class SunriseGhostTargetWindow
 {
-    private static HashSet<HashSet<GhostWarpGlobalAntagonist>> SortAntagsByWeight(HashSet<GhostWarpGlobalAntagonist> antagonists)
+    private static List<List<GhostWarpGlobalAntagonist>> SortAntagsByWeight(List<GhostWarpGlobalAntagonist> antagonists)
     {
         return antagonists
             .GroupBy(a => a.Weight)
             .OrderBy(g => g.Key)
-            .Select(g => g.ToHashSet())
-            .ToHashSet();
+            .Select(g => g.ToList())
+            .ToList();
     }
 
     /// <summary>
     /// Сортирует по имени
     /// </summary>
-    private static HashSet<T> GetSortedByName<T>(HashSet<T> items) where T : SharedGhostSystem.INamedGhostWarp
+    private static List<T> GetSortedByName<T>(List<T> items) where T : SharedGhostSystem.INamedGhostWarp
     {
         return items
             .OrderBy(i => i.Name)
-            .ToHashSet();
+            .ToList();
     }
-
 }

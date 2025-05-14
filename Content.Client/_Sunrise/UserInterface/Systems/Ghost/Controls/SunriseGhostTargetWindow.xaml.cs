@@ -13,14 +13,14 @@ public sealed partial class SunriseGhostTargetWindow : DefaultWindow
 {
     [Dependency] private readonly IPrototypeManager _prototype = default!;
 
-    private HashSet<GhostWarpPlayer> _playerWarps = [];
-    private HashSet<GhostWarpPlace> _placeWarps = [];
-    private HashSet<GhostWarpGlobalAntagonist> _antagonists = [];
+    private List<GhostWarpPlayer> _playerWarps = [];
+    private List<GhostWarpPlace> _placeWarps = [];
+    private List<GhostWarpGlobalAntagonist> _antagonists = [];
 
-    private readonly HashSet<GhostWarpPlayer> _alivePlayers = [];
-    private readonly HashSet<GhostWarpPlayer> _leftPlayers = [];
-    private readonly HashSet<GhostWarpPlayer> _deadPlayers = [];
-    private readonly HashSet<GhostWarpPlayer> _ghostPlayers = [];
+    private readonly List<GhostWarpPlayer> _alivePlayers = [];
+    private readonly List<GhostWarpPlayer> _leftPlayers = [];
+    private readonly List<GhostWarpPlayer> _deadPlayers = [];
+    private readonly List<GhostWarpPlayer> _ghostPlayers = [];
 
     public event Action<NetEntity>? WarpClicked;
 
@@ -41,7 +41,7 @@ public sealed partial class SunriseGhostTargetWindow : DefaultWindow
         AddButtons();
     }
 
-    public void UpdateWarps(HashSet<GhostWarpPlayer> players, HashSet<GhostWarpPlace> places, HashSet<GhostWarpGlobalAntagonist> antagonists)
+    public void UpdateWarps(List<GhostWarpPlayer> players, List<GhostWarpPlace> places, List<GhostWarpGlobalAntagonist> antagonists)
     {
         _playerWarps = players;
         _placeWarps = places;

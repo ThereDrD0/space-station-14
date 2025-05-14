@@ -13,7 +13,7 @@ public sealed partial class SunriseGhostTargetWindow
     private static readonly Color PlaceButtonColor = Color.FromHex("#969696");
 
     // TODO: Дедупликация одинакового кода
-    private void AddPlayerButtons(HashSet<GhostWarpPlayer> warps, string text)
+    private void AddPlayerButtons(List<GhostWarpPlayer> warps, string text)
     {
         if (warps.Count == 0)
             return;
@@ -72,7 +72,7 @@ public sealed partial class SunriseGhostTargetWindow
         GhostTeleportContainer.AddChild(bigGrid);
     }
 
-    private void AddPlaceButtons(HashSet<GhostWarpPlace> places, string text)
+    private void AddPlaceButtons(List<GhostWarpPlace> places, string text)
     {
         if (places.Count == 0)
             return;
@@ -123,7 +123,7 @@ public sealed partial class SunriseGhostTargetWindow
         GhostTeleportContainer.AddChild(bigGrid);
     }
 
-    private void AddAntagButtons(HashSet<GhostWarpGlobalAntagonist> antags, string text)
+    private void AddAntagButtons(List<GhostWarpGlobalAntagonist> antags, string text)
     {
         if (antags.Count == 0)
             return;
@@ -172,7 +172,7 @@ public sealed partial class SunriseGhostTargetWindow
 
             var departmentLabel = new Label
             {
-                Text = Loc.GetString(labelText) + ": " + antagHashSet.Count,
+                Text = Loc.GetString(labelText) + ": " + antagHashSet.Count(),
                 StyleClasses = { "LabelSecondaryColor" }
             };
 
@@ -183,9 +183,9 @@ public sealed partial class SunriseGhostTargetWindow
         GhostTeleportContainer.AddChild(bigGrid);
     }
 
-    private Dictionary<DepartmentPrototype, HashSet<GhostWarpPlayer>> GroupPlayersByDepartment(HashSet<GhostWarpPlayer> players)
+    private Dictionary<DepartmentPrototype, List<GhostWarpPlayer>> GroupPlayersByDepartment(List<GhostWarpPlayer> players)
     {
-        var result = new Dictionary<DepartmentPrototype, HashSet<GhostWarpPlayer>>();
+        var result = new Dictionary<DepartmentPrototype, List<GhostWarpPlayer>>();
 
         foreach (var player in players)
         {
