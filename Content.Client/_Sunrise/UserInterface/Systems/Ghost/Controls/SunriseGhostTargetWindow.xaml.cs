@@ -46,6 +46,8 @@ public sealed partial class SunriseGhostTargetWindow : DefaultWindow
 
         PlayersAllocation();
         AddButtons();
+
+        SearchBar.OnTextChanged += OnSearchTextChanged;
     }
 
     public void UpdateWarps(List<GhostWarpPlayer> players, List<GhostWarpPlace> places, List<GhostWarpGlobalAntagonist> antagonists)
