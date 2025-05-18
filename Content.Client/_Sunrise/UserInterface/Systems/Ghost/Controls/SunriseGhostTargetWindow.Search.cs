@@ -1,4 +1,5 @@
-﻿using Content.Client._Sunrise.UserInterface.Controls;
+﻿using System.Numerics;
+using Content.Client._Sunrise.UserInterface.Controls;
 using Robust.Client.UserInterface.Controls;
 
 namespace Content.Client._Sunrise.UserInterface.Systems.Ghost.Controls;
@@ -12,6 +13,7 @@ public sealed partial class SunriseGhostTargetWindow
         _searchText = args.Text;
 
         UpdateVisibleButtons();
+        Scroll.SetScrollValue(Vector2.Zero);
     }
 
     private void UpdateVisibleButtons()
