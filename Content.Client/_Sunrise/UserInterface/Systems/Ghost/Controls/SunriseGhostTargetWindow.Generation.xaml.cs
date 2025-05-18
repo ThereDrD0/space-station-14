@@ -114,7 +114,7 @@ public sealed partial class SunriseGhostTargetWindow
                 HorizontalAlignment = HAlignment.Center,
                 VerticalAlignment = VAlignment.Center,
                 SizeFlagsStretchRatio = 1,
-                ToolTip = place.Description,
+                ToolTip = GenerateGenericTooltip(place.Name, place.Description),
                 TooltipDelay = DefaultTooltipDelay,
                 SetWidth = DefaultButtonWidth,
                 SetHeight = DefaultButtonHeight,
@@ -166,7 +166,7 @@ public sealed partial class SunriseGhostTargetWindow
                     HorizontalAlignment = HAlignment.Center,
                     VerticalAlignment = VAlignment.Center,
                     SizeFlagsStretchRatio = 1,
-                    ToolTip = Loc.GetString(antag.AntagonistDescription),
+                    ToolTip = GenerateGenericTooltip(antag.Name, Loc.GetString(antag.AntagonistDescription)),
                     TooltipDelay = DefaultTooltipDelay,
                     SetWidth = DefaultButtonWidth,
                     SetHeight = DefaultButtonHeight,
@@ -230,6 +230,11 @@ public sealed partial class SunriseGhostTargetWindow
         // К сожалению тултипы это очко, я не хочу туда лезть с ричтекстом
         // var jobIcon = _chatIcons.GetJobIcon(warp.JobId, 3);
 
-        return $"{warp.Name}\n{jobName.ToUpperInvariant()}";
+        return GenerateGenericTooltip(warp.Name, jobName.ToUpperInvariant());
+    }
+
+    private static string GenerateGenericTooltip(string fullName, string additionalInfo)
+    {
+        return $"{fullName}\n{additionalInfo}";
     }
 }
