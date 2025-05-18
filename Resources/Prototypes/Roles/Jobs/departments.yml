@@ -13,7 +13,7 @@
   id: Civilian
   name: department-Civilian
   description: department-Civilian-description
-  color: "#9FED58"
+  color: "#40A166" # Sunrise edit
   weight: -10
   roles:
   - Bartender
