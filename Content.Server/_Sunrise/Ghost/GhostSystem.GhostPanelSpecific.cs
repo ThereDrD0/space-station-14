@@ -44,25 +44,25 @@ public sealed partial class GhostSystem
                 continue;
 
             var playerDepartmentId = _prototypeManager.Index(UnknownDepartmentPrototype).ID;
-            var playerJobName = Loc.GetString("ghost-panel-unknown-job");
+            ProtoId<JobPrototype>? playerJobId = null;
+            var playerMind = mind.Mind ?? mind.LastMindStored;
 
-            if (_jobs.MindTryGetJob(mind.Mind ?? mind.LastMindStored, out var jobPrototype))
+            if (_jobs.MindTryGetJob(playerMind, out var jobPrototype))
             {
-                playerJobName = Loc.GetString(jobPrototype.Name);
+                playerJobId = jobPrototype.ID;
 
                 if (_jobs.TryGetDepartment(jobPrototype.ID, out var departmentPrototype))
-                {
                     playerDepartmentId = departmentPrototype.ID;
-                }
             }
-            var hasAnyMind = (mind.Mind ?? mind.LastMindStored) != null;
+
+            var hasAnyMind = playerMind != null;
             var isDead = _mobState.IsDead(uid);
             var isLeft = TryComp<SSDIndicatorComponent>(uid, out var indicator) && indicator.IsSSD && !isDead && hasAnyMind;
 
             var warp = new GhostWarpPlayer(
                 GetNetEntity(uid),
                 meta.EntityName,
-                playerJobName,
+                playerJobId,
                 playerDepartmentId,
                 isGhost,
                 isLeft,

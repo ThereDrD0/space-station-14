@@ -1,4 +1,6 @@
-﻿using Robust.Shared.Serialization;
+﻿using Content.Shared.Roles;
+using Robust.Shared.Prototypes;
+using Robust.Shared.Serialization;
 
 namespace Content.Shared.Ghost;
 
@@ -12,9 +14,9 @@ public abstract partial class SharedGhostSystem
     [Serializable, NetSerializable]
     public record struct GhostWarpPlayer(
         NetEntity Entity,
-        string PlayerName,
-        string PlayerJobName,
-        string PlayerDepartmentId,
+        string Name,
+        ProtoId<JobPrototype>? JobId,
+        ProtoId<DepartmentPrototype> DepartmentId,
         bool IsGhost,
         bool IsLeft,
         bool IsDead,
@@ -29,17 +31,17 @@ public abstract partial class SharedGhostSystem
         /// <summary>
         /// The display player name to be surfaced in the ghost warps menu
         /// </summary>
-        public string Name { get; } = PlayerName;
+        public string Name { get; } = Name;
 
         /// <summary>
         /// The display player job to be surfaced in the ghost warps menu
         /// </summary>
-        public readonly string JobName = PlayerJobName;
+        public readonly ProtoId<JobPrototype>? JobId = JobId;
 
         /// <summary>
         /// The display player department to be surfaced in the ghost warps menu
         /// </summary>
-        public readonly string DepartmentId = PlayerDepartmentId;
+        public readonly ProtoId<DepartmentPrototype> DepartmentId = DepartmentId;
 
         /// <summary>
         /// Is player is ghost

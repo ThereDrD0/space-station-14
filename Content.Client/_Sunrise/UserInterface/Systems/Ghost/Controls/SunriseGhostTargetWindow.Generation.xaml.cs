@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Content.Client._Sunrise.UserInterface.Controls;
 using Content.Shared.Roles;
 using Robust.Client.UserInterface.Controls;
 using GhostWarpPlayer = Content.Shared.Ghost.SharedGhostSystem.GhostWarpPlayer;
@@ -11,6 +12,11 @@ public sealed partial class SunriseGhostTargetWindow
 {
     private static readonly Color AntagonistButtonColor = Color.FromHex("#7F4141");
     private static readonly Color PlaceButtonColor = Color.FromHex("#969696");
+
+    private const int DefaultButtonWidth = 200;
+    private const int DefaultButtonHeight = 35;
+    private const float DefaultTooltipDelay = 0.1f;
+    private const int MaxLenght = 15;
 
     // TODO: Дедупликация одинакового кода
     private void AddPlayerButtons(List<GhostWarpPlayer> warps, string text)
@@ -47,17 +53,18 @@ public sealed partial class SunriseGhostTargetWindow
 
             foreach (var player in players)
             {
-                var playerButton = new Button
+                var playerButton = new RichTextButton
                 {
-                    Text = player.Name,
+                    ModulateSelfOverride = department.Color,
+                    Text = GeneratePlayerLabel(player),
                     TextAlign = Label.AlignMode.Right,
                     HorizontalAlignment = HAlignment.Center,
                     VerticalAlignment = VAlignment.Center,
                     SizeFlagsStretchRatio = 1,
-                    ModulateSelfOverride = department.Color,
-                    ToolTip = player.JobName,
-                    TooltipDelay = 0.1f,
-                    SetWidth = 180,
+                    ToolTip = GeneratePlayerTooltip(player),
+                    TooltipDelay = DefaultTooltipDelay,
+                    SetWidth = DefaultButtonWidth,
+                    SetHeight = DefaultButtonHeight,
                 };
 
                 playerButton.OnPressed += _ => WarpClicked?.Invoke(player.Entity);
@@ -99,17 +106,18 @@ public sealed partial class SunriseGhostTargetWindow
 
         foreach (var place in places)
         {
-            var placeButton = new Button
+            var placeButton = new RichTextButton
             {
-                Text = place.Name,
+                ModulateSelfOverride = PlaceButtonColor,
+                Text = TruncateWithEllipsis(place.Name, MaxLenght),
                 TextAlign = Label.AlignMode.Right,
                 HorizontalAlignment = HAlignment.Center,
                 VerticalAlignment = VAlignment.Center,
                 SizeFlagsStretchRatio = 1,
-                ModulateSelfOverride = PlaceButtonColor,
                 ToolTip = place.Description,
-                TooltipDelay = 0.1f,
-                SetWidth = 180,
+                TooltipDelay = DefaultTooltipDelay,
+                SetWidth = DefaultButtonWidth,
+                SetHeight = DefaultButtonHeight,
             };
 
             placeButton.OnPressed += _ => WarpClicked?.Invoke(place.Entity);
@@ -139,7 +147,7 @@ public sealed partial class SunriseGhostTargetWindow
 
         var sortedAntags = SortAntagsByWeight(antags);
 
-        foreach (var antagHashSet in sortedAntags)
+        foreach (var antagSet in sortedAntags)
         {
             var departmentGrid = new GridContainer
             {
@@ -148,19 +156,20 @@ public sealed partial class SunriseGhostTargetWindow
 
             var labelText = string.Empty;
 
-            foreach (var antag in antagHashSet)
+            foreach (var antag in antagSet)
             {
-                var playerButton = new Button
+                var playerButton = new RichTextButton
                 {
-                    Text = antag.Name,
+                    ModulateSelfOverride = AntagonistButtonColor,
+                    Text = TruncateWithEllipsis(antag.Name, MaxLenght),
                     TextAlign = Label.AlignMode.Right,
                     HorizontalAlignment = HAlignment.Center,
                     VerticalAlignment = VAlignment.Center,
                     SizeFlagsStretchRatio = 1,
-                    ModulateSelfOverride = AntagonistButtonColor,
                     ToolTip = Loc.GetString(antag.AntagonistDescription),
-                    TooltipDelay = 0.1f,
-                    SetWidth = 180,
+                    TooltipDelay = DefaultTooltipDelay,
+                    SetWidth = DefaultButtonWidth,
+                    SetHeight = DefaultButtonHeight,
                 };
 
                 playerButton.OnPressed += _ => WarpClicked?.Invoke(antag.Entity);
@@ -172,7 +181,7 @@ public sealed partial class SunriseGhostTargetWindow
 
             var departmentLabel = new Label
             {
-                Text = Loc.GetString(labelText) + ": " + antagHashSet.Count(),
+                Text = Loc.GetString(labelText) + ": " + antagSet.Count,
                 StyleClasses = { "LabelSecondaryColor" }
             };
 
@@ -189,7 +198,7 @@ public sealed partial class SunriseGhostTargetWindow
 
         foreach (var player in players)
         {
-            if (!_prototype.TryIndex<DepartmentPrototype>(player.DepartmentId, out var department))
+            if (!_prototype.TryIndex(player.DepartmentId, out var department))
                 continue;
 
             if (!result.TryGetValue(department, out var list))
@@ -202,5 +211,25 @@ public sealed partial class SunriseGhostTargetWindow
         }
 
         return result;
+    }
+
+    private string GeneratePlayerLabel(GhostWarpPlayer warp)
+    {
+        var playerName = TruncateWithEllipsis(warp.Name, MaxLenght);
+        var jobIcon = _chatIcons.GetJobIcon(warp.JobId, 3);
+
+        return $"{jobIcon} {playerName}";
+    }
+
+    private string GeneratePlayerTooltip(GhostWarpPlayer warp)
+    {
+        var jobName = _prototype.TryIndex(warp.JobId, out var jobPrototype)
+            ? jobPrototype.LocalizedName
+            : Loc.GetString("ghost-panel-unknown-job");
+
+        // К сожалению тултипы это очко, я не хочу туда лезть с ричтекстом
+        // var jobIcon = _chatIcons.GetJobIcon(warp.JobId, 3);
+
+        return $"{warp.Name}\n{jobName.ToUpperInvariant()}";
     }
 }
