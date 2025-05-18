@@ -35,7 +35,7 @@ public sealed partial class SunriseGhostTargetWindow
         bigGrid.AddChild(bigLabel);
 
         var sortedWarps = GroupPlayersByDepartment(warps)
-            .OrderBy(kvp => kvp.Key.Weight)
+            .OrderByDescending(kvp => kvp.Key.Weight)
             .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
         foreach (var (department, players) in sortedWarps)
