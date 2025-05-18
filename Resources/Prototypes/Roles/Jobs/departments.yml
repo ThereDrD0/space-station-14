@@ -141,7 +141,7 @@
   sort: 0
   name: department-Silicon
   description: department-Silicon-description
-  color: "#D381C9"
+  color: "#ac10aa" # Sunrise edit
   roles:
   - StationAi
   - Borg
