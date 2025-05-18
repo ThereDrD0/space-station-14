@@ -16,7 +16,9 @@ public sealed partial class SunriseGhostTargetWindow
     private const int DefaultButtonWidth = 200;
     private const int DefaultButtonHeight = 35;
     private const float DefaultTooltipDelay = 0.1f;
+
     private const int MaxLenght = 15;
+    private const int MaxLenghtWithoutIcons = 18;
 
     // TODO: Дедупликация одинакового кода
     private void AddPlayerButtons(List<GhostWarpPlayer> warps, string text)
@@ -109,7 +111,7 @@ public sealed partial class SunriseGhostTargetWindow
             var placeButton = new RichTextButton
             {
                 ModulateSelfOverride = PlaceButtonColor,
-                Text = TruncateWithEllipsis(place.Name, MaxLenght),
+                Text = TruncateWithEllipsis(place.Name, MaxLenghtWithoutIcons),
                 TextAlign = Label.AlignMode.Right,
                 HorizontalAlignment = HAlignment.Center,
                 VerticalAlignment = VAlignment.Center,
@@ -161,7 +163,7 @@ public sealed partial class SunriseGhostTargetWindow
                 var playerButton = new RichTextButton
                 {
                     ModulateSelfOverride = AntagonistButtonColor,
-                    Text = TruncateWithEllipsis(antag.Name, MaxLenght),
+                    Text = TruncateWithEllipsis(antag.Name, MaxLenghtWithoutIcons),
                     TextAlign = Label.AlignMode.Right,
                     HorizontalAlignment = HAlignment.Center,
                     VerticalAlignment = VAlignment.Center,

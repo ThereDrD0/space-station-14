@@ -16,31 +16,52 @@ public sealed partial class SunriseGhostTargetWindow
 
     private void UpdateVisibleButtons()
     {
-        // TODO: Как-то оптимизировать?
-        // Паровозик из циклов ради поиска выглядит как большая потеря производительности при этом самом поиске
-        // Но я не вижу вариантов, как сделать это иначе. Если бы можно было получить всех детей рекурсивно более производительно
-        // То я бы сделал это, вместо цикла в цикла в цикле
-        foreach (var bigGrid in GhostTeleportContainer.Children)
+        foreach (var bigGridCandidate in GhostTeleportContainer.Children)
         {
-            if (bigGrid is not GridContainer)
+            if (bigGridCandidate is not GridContainer bigGrid)
                 continue;
 
-            foreach (var departmentGrid in bigGrid.Children)
+            var anyDepartmentVisible = false;
+
+            foreach (var departmentCandidate in bigGrid.Children)
             {
-                if (departmentGrid is not GridContainer)
+                if (departmentCandidate is not GridContainer departmentGrid)
                     continue;
 
-                foreach (var gridChild in departmentGrid.Children)
-                {
-                    if (gridChild is RichTextButton button)
-                        gridChild.Visible = ButtonIsVisible(button);
-                }
+                var anyButtonVisible = UpdateButtonsVisibility(departmentGrid);
+                departmentGrid.Visible = anyButtonVisible;
+
+                if (anyButtonVisible)
+                    anyDepartmentVisible = true;
             }
+
+            bigGrid.Visible = anyDepartmentVisible;
         }
+    }
+
+    private bool UpdateButtonsVisibility(GridContainer departmentGrid)
+    {
+        var foundVisible = false;
+
+        foreach (var child in departmentGrid.Children)
+        {
+            if (child is not RichTextButton button)
+                continue;
+
+            var isVisible = ButtonIsVisible(button);
+            button.Visible = isVisible;
+
+            if (isVisible)
+                foundVisible = true;
+        }
+
+        return foundVisible;
     }
 
     private bool ButtonIsVisible(RichTextButton button)
     {
-        return string.IsNullOrEmpty(_searchText) || button.ToolTip == null || button.ToolTip.Contains(_searchText, StringComparison.OrdinalIgnoreCase);
+        return string.IsNullOrEmpty(_searchText)
+               || button.ToolTip == null
+               || button.ToolTip.Contains(_searchText, StringComparison.OrdinalIgnoreCase);
     }
 }
