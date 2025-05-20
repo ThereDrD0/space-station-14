@@ -2,6 +2,7 @@
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
 
+// Не менять
 namespace Content.Shared.Ghost;
 
 // TODO: Перевод комментариев на славянский
