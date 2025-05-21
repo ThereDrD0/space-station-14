@@ -14,8 +14,13 @@ namespace Content.Server.Ghost;
 
 public sealed partial class GhostSystem
 {
+    // Прототип-fallback департамента. Если у сущности нет департамента, он будет отображаться как этот
     private static readonly ProtoId<DepartmentPrototype> UnknownDepartmentPrototype = "Specific";
 
+    /// <summary>
+    /// Создает список всех точек телепорта локаций
+    /// </summary>
+    /// <returns>Созданный список</returns>
     private IEnumerable<GhostWarpPlace> GetLocationWarps()
     {
         var query = AllEntityQuery<WarpPointComponent, MetaDataComponent>();
@@ -30,6 +35,10 @@ public sealed partial class GhostSystem
         }
     }
 
+    /// <summary>
+    /// Создает список всех игроков для отображения в панели телепорта
+    /// </summary>
+    /// <returns>Созданный список</returns>
     private IEnumerable<GhostWarpPlayer> GetPlayerWarps()
     {
         var query = AllEntityQuery<MindContainerComponent, MetaDataComponent>();
@@ -74,6 +83,10 @@ public sealed partial class GhostSystem
         }
     }
 
+    /// <summary>
+    /// Создает список всех игроков с ролью антагониста для отображения в панели призрака
+    /// </summary>
+    /// <returns>Созданный список</returns>
     private IEnumerable<GhostWarpGlobalAntagonist> GetAntagonistWarps()
     {
         var query = AllEntityQuery<GhostPanelAntagonistMarkerComponent, MetaDataComponent>();
@@ -92,7 +105,7 @@ public sealed partial class GhostSystem
     }
 
     /// <summary>
-    /// Проверяет, является ли живая сушность подходящей для нахождения в панели телепорта призрака
+    /// Проверяет, является ли живая сущность подходящей для нахождения в панели телепорта призрака
     /// </summary>
     private bool IsEntityPanelRelevant(EntityUid uid, bool isGhost)
     {

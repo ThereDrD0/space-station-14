@@ -9,6 +9,15 @@ using GhostWarpGlobalAntagonist = Content.Shared.Ghost.SharedGhostSystem.GhostWa
 
 namespace Content.Client._Sunrise.UserInterface.Systems.Ghost.Controls;
 
+/// <summary>
+/// Гост-менюшка с телепортом призрака к игрокам. По совместительству обзор состояния раунда с минимальным количеством мета-информации.
+/// Сортирует игроков по наличию статуса антагониста, состоянию здоровья, принадлежность к отделам, работе и т.п.
+/// Позволяет игроку быстро оценить статус раунда и телепортироваться к любому игроку нажав на кнопку
+/// <remarks>
+/// Генерация кнопок происходит автоматически. Поддерживает любые, даже неванильные роли, отделы и антагонистов
+/// Для маркировки антагонистов используется <see cref="GhostPanelAntagonistMarkerComponent"/>
+/// </remarks>
+/// </summary>
 [GenerateTypedNameReferences]
 public sealed partial class SunriseGhostTargetWindow : DefaultWindow
 {
@@ -53,6 +62,9 @@ public sealed partial class SunriseGhostTargetWindow : DefaultWindow
         SearchBar.OnTextChanged += OnSearchTextChanged;
     }
 
+    /// <summary>
+    /// Актуализирует информацию о варпах
+    /// </summary>
     public void UpdateWarps(List<GhostWarpPlayer> players, List<GhostWarpPlace> places, List<GhostWarpGlobalAntagonist> antagonists)
     {
         _playerWarps = players;
@@ -60,6 +72,9 @@ public sealed partial class SunriseGhostTargetWindow : DefaultWindow
         _antagonists = antagonists;
     }
 
+    /// <summary>
+    /// Генерирует и добавляет в панель кнопки для телепорта к игрокам, сортированные по отделам, состоянию и т.п.
+    /// </summary>
     private void AddButtons()
     {
         AddAntagButtons(_antagonists, "ghost-teleport-menu-antagonists-label");
@@ -78,6 +93,9 @@ public sealed partial class SunriseGhostTargetWindow : DefaultWindow
         AddPlaceButtons(_placeWarps, "ghost-teleport-menu-locations-label");
     }
 
+    /// <summary>
+    /// Сортирует игроков по их состоянию здоровья и наличия в игре
+    /// </summary>
     private void PlayersAllocation()
     {
         _alivePlayers.Clear();

@@ -10,7 +10,7 @@ namespace Content.Shared.Mind.Components;
 [RegisterComponent, Access(typeof(SharedMindSystem)), NetworkedComponent, AutoGenerateComponentState]
 public sealed partial class MindContainerComponent : Component
 {
-    // Sunrise edit start - для гостпанельки
+    // Sunrise edit start - для гостпанельки. Сохраняет последний разум, который был в теле
     [AutoNetworkedField]
     [Access(Other = AccessPermissions.ReadWriteExecute)]
     public EntityUid? LastMindStored;

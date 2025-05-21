@@ -151,7 +151,7 @@ public sealed partial class SunriseGhostTargetWindow
         };
         bigGrid.AddChild(bigLabel);
 
-        var sortedAntags = SortAntagsByWeight(antags);
+        var sortedAntags = SortAntagsByPriority(antags);
 
         foreach (var antagSet in sortedAntags)
         {

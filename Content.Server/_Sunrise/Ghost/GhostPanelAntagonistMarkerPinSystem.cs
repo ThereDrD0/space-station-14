@@ -4,6 +4,10 @@ using Content.Shared.Zombies;
 
 namespace Content.Server._Sunrise.Ghost;
 
+/// <summary>
+/// Система, динамически выдающая <see cref="GhostPanelAntagonistMarkerComponent"/>
+/// Некоторые антагонисты должны начать отображаться только в определенный момент, чтобы исключить лишнюю мета-информацию для игроков
+/// </summary>
 public sealed class GhostPanelAntagonistMarkerPinSystem : EntitySystem
 {
     public override void Initialize()

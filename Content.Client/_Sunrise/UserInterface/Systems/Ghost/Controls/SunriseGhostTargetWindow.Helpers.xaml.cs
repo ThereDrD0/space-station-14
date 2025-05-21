@@ -8,9 +8,14 @@ namespace Content.Client._Sunrise.UserInterface.Systems.Ghost.Controls;
 
 public sealed partial class SunriseGhostTargetWindow
 {
+    // Символ трех точек, вставляемый в конец обрезанного имени
     private const string Ellipsis = "...";
 
-    private static List<List<GhostWarpGlobalAntagonist>> SortAntagsByWeight(List<GhostWarpGlobalAntagonist> antagonists)
+    /// <summary>
+    /// Сортирует антагонистов по их приоритету. Чем ниже цифра приоритета, тем выше в списке
+    /// </summary>
+    /// <returns>Отсортированный список со списками антагонистов. Каждый вложенный список это все сущности данного приоритета</returns>
+    private static List<List<GhostWarpGlobalAntagonist>> SortAntagsByPriority(List<GhostWarpGlobalAntagonist> antagonists)
     {
         return antagonists
             .GroupBy(a => a.Priority)
@@ -20,7 +25,7 @@ public sealed partial class SunriseGhostTargetWindow
     }
 
     /// <summary>
-    /// Сортирует по имени
+    /// Сортирует по имени в алфавитном порядке
     /// </summary>
     private static List<T> GetSortedByName<T>(List<T> items) where T : SharedGhostSystem.INamedGhostWarp
     {
@@ -48,6 +53,13 @@ public sealed partial class SunriseGhostTargetWindow
         return string.Concat(input.AsSpan(0, cutLength), Ellipsis);
     }
 
+    /// <summary>
+    /// Создает название для кнопки с игроком. Вставляет перед именем иконку профессии через теги
+    /// <remarks>
+    /// Кнопка должна поддерживать <see cref="RichTextLabel"/>, чтобы иконка отображалась
+    /// </remarks>
+    /// </summary>
+    /// <returns>Сгенерированное название с иконкой</returns>
     private string GeneratePlayerLabel(GhostWarpPlayer warp)
     {
         var playerName = TruncateWithEllipsis(warp.Name, MaxLenght);
@@ -56,6 +68,10 @@ public sealed partial class SunriseGhostTargetWindow
         return $"{jobIcon} {playerName}";
     }
 
+    /// <summary>
+    /// Создает подсказку для кнопки-игрока, содержащую его имя и название работы
+    /// </summary>
+    /// <returns>Сгенерированную строку для подсказки</returns>
     private string GeneratePlayerTooltip(GhostWarpPlayer warp)
     {
         var jobName = _prototype.TryIndex(warp.JobId, out var jobPrototype)
@@ -68,11 +84,23 @@ public sealed partial class SunriseGhostTargetWindow
         return GenerateGenericTooltip(warp.Name, jobName.ToUpperInvariant());
     }
 
+    /// <summary>
+    /// Создает базовую подсказку, содержащую название и описание цели для телепорта в отформатированном формате
+    /// </summary>
+    /// <returns>Сгенерированную строку для подсказки</returns>
     private static string GenerateGenericTooltip(string fullName, string additionalInfo)
     {
         return $"{fullName}\n{additionalInfo}";
     }
 
+    /// <summary>
+    /// Сортирует игроков по департаментам
+    /// </summary>
+    /// <remarks>
+    /// НЕ сортирует по значимости департамента. Департаменты в словаре хранятся в случайном порядке.
+    /// </remarks>
+    /// <param name="players">Список всех варпов-игроков</param>
+    /// <returns>Словарь, где ключом является прототип департамента, а значением список всех игроков в этом департаменте</returns>
     private Dictionary<DepartmentPrototype, List<GhostWarpPlayer>> GroupPlayersByDepartment(List<GhostWarpPlayer> players)
     {
         var result = new Dictionary<DepartmentPrototype, List<GhostWarpPlayer>>();
