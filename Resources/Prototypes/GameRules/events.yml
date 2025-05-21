@@ -566,7 +566,7 @@
       - type: GhostPanelAntagonistMarker
         name: ghost-panel-antagonist-loneops-name
         description: ghost-panel-antagonist-loneops-description
-        weight: 20
+        priority: 20
       # Sunrise edit end
       - type: NukeOperative
       - type: RandomMetadata

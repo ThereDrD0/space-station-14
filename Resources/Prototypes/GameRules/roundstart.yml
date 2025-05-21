@@ -144,7 +144,7 @@
       - type: GhostPanelAntagonistMarker
         name: ghost-panel-antagonist-nukeops-name
         description: ghost-panel-antagonist-nukeops-description
-        weight: 10
+        priority: 10
       # Sunrise edit end
       - type: NukeOperative
       - type: RandomMetadata
@@ -326,7 +326,7 @@
       - type: GhostPanelAntagonistMarker
         name: ghost-panel-antagonist-wizard-name
         description: ghost-panel-antagonist-wizard-description
-        weight: 5
+        priority: 5
       # Sunrise edit end
       - type: NpcFactionMember
         factions:
