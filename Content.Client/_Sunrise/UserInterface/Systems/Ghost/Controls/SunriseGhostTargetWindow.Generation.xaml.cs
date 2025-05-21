@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using Content.Client._Sunrise.UserInterface.Controls;
-using Content.Shared.Roles;
 using Robust.Client.UserInterface.Controls;
 using GhostWarpPlayer = Content.Shared.Ghost.SharedGhostSystem.GhostWarpPlayer;
 using GhostWarpPlace = Content.Shared.Ghost.SharedGhostSystem.GhostWarpPlace;
@@ -20,7 +19,12 @@ public sealed partial class SunriseGhostTargetWindow
     private const int MaxLenght = 15;
     private const int MaxLenghtWithoutIcons = 18;
 
-    // TODO: Дедупликация одинакового кода
+    // TODO: Дедупликация одинакового кода генерации
+    // UDPATE: Сначала я хотел это сделать, но потом понял, что AddPlayerButtons разительно отличается от остальных
+    // Так как в кнопках игроков идет итерация двух циклов, а у остальных один. И реализация generic метода не улучшит читабельность
+    // И просто усложнит понимание кода, структуры генерируемого куса и не принесет никакой пользы, кроме галочки за соблюдение DRY паттерна
+    // TODO-2: Придумать как реализовать generic метод, не усложняя понимание кода, без вреда читабельности
+
     private void AddPlayerButtons(List<GhostWarpPlayer> warps, string text)
     {
         if (warps.Count == 0)
@@ -91,7 +95,7 @@ public sealed partial class SunriseGhostTargetWindow
         var bigLabel = new Label
         {
             Text = Loc.GetString(text),
-            StyleClasses = { "LabelBig" }
+            StyleClasses = { "LabelBig" },
         };
         bigGrid.AddChild(bigLabel);
 
@@ -184,7 +188,7 @@ public sealed partial class SunriseGhostTargetWindow
             var departmentLabel = new Label
             {
                 Text = Loc.GetString(labelText) + ": " + antagSet.Count,
-                StyleClasses = { "LabelSecondaryColor" }
+                StyleClasses = { "LabelSecondaryColor" },
             };
 
             bigGrid.AddChild(departmentLabel);
@@ -192,51 +196,5 @@ public sealed partial class SunriseGhostTargetWindow
         }
 
         GhostTeleportContainer.AddChild(bigGrid);
-    }
-
-    private Dictionary<DepartmentPrototype, List<GhostWarpPlayer>> GroupPlayersByDepartment(List<GhostWarpPlayer> players)
-    {
-        var result = new Dictionary<DepartmentPrototype, List<GhostWarpPlayer>>();
-
-        foreach (var player in players)
-        {
-            if (!_prototype.TryIndex(player.DepartmentId, out var department))
-                continue;
-
-            if (!result.TryGetValue(department, out var list))
-            {
-                list = [];
-                result[department] = list;
-            }
-
-            list.Add(player);
-        }
-
-        return result;
-    }
-
-    private string GeneratePlayerLabel(GhostWarpPlayer warp)
-    {
-        var playerName = TruncateWithEllipsis(warp.Name, MaxLenght);
-        var jobIcon = _chatIcons.GetJobIcon(warp.JobId, 3);
-
-        return $"{jobIcon} {playerName}";
-    }
-
-    private string GeneratePlayerTooltip(GhostWarpPlayer warp)
-    {
-        var jobName = _prototype.TryIndex(warp.JobId, out var jobPrototype)
-            ? jobPrototype.LocalizedName
-            : Loc.GetString("ghost-panel-unknown-job");
-
-        // К сожалению тултипы это очко, я не хочу туда лезть с ричтекстом
-        // var jobIcon = _chatIcons.GetJobIcon(warp.JobId, 3);
-
-        return GenerateGenericTooltip(warp.Name, jobName.ToUpperInvariant());
-    }
-
-    private static string GenerateGenericTooltip(string fullName, string additionalInfo)
-    {
-        return $"{fullName}\n{additionalInfo}";
     }
 }

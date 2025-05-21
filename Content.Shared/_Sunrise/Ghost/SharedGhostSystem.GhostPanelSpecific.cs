@@ -20,8 +20,7 @@ public abstract partial class SharedGhostSystem
         ProtoId<DepartmentPrototype> DepartmentId,
         bool IsGhost,
         bool IsLeft,
-        bool IsDead,
-        bool IsAlive) : INamedGhostWarp
+        bool IsDead) : INamedGhostWarp
     {
         /// <summary>
         /// The entity representing the warp point.
@@ -50,19 +49,14 @@ public abstract partial class SharedGhostSystem
         public readonly bool IsGhost = IsGhost;
 
         /// <summary>
-        /// Is player body alive
+        /// Is player left from body
         /// </summary>
-        public readonly bool IsAlive = IsAlive;
+        public readonly bool IsLeft = IsLeft;
 
         /// <summary>
         /// Is player body dead
         /// </summary>
         public readonly bool IsDead = IsDead;
-
-        /// <summary>
-        /// Is player left from body
-        /// </summary>
-        public readonly bool IsLeft = IsLeft;
     }
 
     [Serializable, NetSerializable]
@@ -155,6 +149,10 @@ public abstract partial class SharedGhostSystem
         public readonly List<GhostWarpGlobalAntagonist> Antagonists = antagonists;
     }
 
+    /// <summary>
+    /// Интерфейс, который говорит, что у этого варпа есть имя.
+    /// Нужен, чтобы реализовать сортировки по имени в генерации кнопок с помощью одной функции для всех 3 типов варпов
+    /// </summary>
     public interface INamedGhostWarp
     {
         public string Name { get; }

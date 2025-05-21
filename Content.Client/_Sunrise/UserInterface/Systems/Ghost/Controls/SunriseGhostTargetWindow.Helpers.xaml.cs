@@ -1,5 +1,7 @@
 ﻿using System.Linq;
 using Content.Shared.Ghost;
+using Content.Shared.Roles;
+using GhostWarpPlayer = Content.Shared.Ghost.SharedGhostSystem.GhostWarpPlayer;
 using GhostWarpGlobalAntagonist = Content.Shared.Ghost.SharedGhostSystem.GhostWarpGlobalAntagonist;
 
 namespace Content.Client._Sunrise.UserInterface.Systems.Ghost.Controls;
@@ -44,5 +46,51 @@ public sealed partial class SunriseGhostTargetWindow
         var cutLength = maxLength - Ellipsis.Length;
 
         return string.Concat(input.AsSpan(0, cutLength), Ellipsis);
+    }
+
+    private string GeneratePlayerLabel(GhostWarpPlayer warp)
+    {
+        var playerName = TruncateWithEllipsis(warp.Name, MaxLenght);
+        var jobIcon = _chatIcons.GetJobIcon(warp.JobId, 3);
+
+        return $"{jobIcon} {playerName}";
+    }
+
+    private string GeneratePlayerTooltip(GhostWarpPlayer warp)
+    {
+        var jobName = _prototype.TryIndex(warp.JobId, out var jobPrototype)
+            ? jobPrototype.LocalizedName
+            : Loc.GetString("ghost-panel-unknown-job");
+
+        // К сожалению тултипы это очко, я не хочу туда лезть с ричтекстом
+        // var jobIcon = _chatIcons.GetJobIcon(warp.JobId, 3);
+
+        return GenerateGenericTooltip(warp.Name, jobName.ToUpperInvariant());
+    }
+
+    private static string GenerateGenericTooltip(string fullName, string additionalInfo)
+    {
+        return $"{fullName}\n{additionalInfo}";
+    }
+
+    private Dictionary<DepartmentPrototype, List<GhostWarpPlayer>> GroupPlayersByDepartment(List<GhostWarpPlayer> players)
+    {
+        var result = new Dictionary<DepartmentPrototype, List<GhostWarpPlayer>>();
+
+        foreach (var player in players)
+        {
+            if (!_prototype.TryIndex(player.DepartmentId, out var department))
+                continue;
+
+            if (!result.TryGetValue(department, out var list))
+            {
+                list = [];
+                result[department] = list;
+            }
+
+            list.Add(player);
+        }
+
+        return result;
     }
 }

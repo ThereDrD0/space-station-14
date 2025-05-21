@@ -9,6 +9,7 @@ using Content.Shared.SSDIndicator;
 using Content.Shared.Warps;
 using Robust.Shared.Prototypes;
 
+// Не менять
 namespace Content.Server.Ghost;
 
 public sealed partial class GhostSystem
@@ -66,8 +67,7 @@ public sealed partial class GhostSystem
                 playerDepartmentId,
                 isGhost,
                 isLeft,
-                isDead,
-                _mobState.IsAlive(uid) // TODO: Возможно сделать проверку на !IsDead() или как-то объединить это
+                isDead
             );
 
             yield return warp;

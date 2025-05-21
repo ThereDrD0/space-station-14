@@ -37,6 +37,9 @@ public sealed partial class SunriseGhostTargetWindow : DefaultWindow
     public void Populate()
     {
         // TODO: Исправить этот щиткод через DI
+        // UPDATE: Это все вызывается в виджетах, которые появляются куда раньше, чем системы
+        // Реализация DI через UISystemDependency приводит к нихуя результату. Невероятные UI и их невероятные методы работы
+
         _chatIcons = _entity.System<ChatIconsHelpersSystem>();
 
         GhostTeleportContainer.DisposeAllChildren();
@@ -84,13 +87,13 @@ public sealed partial class SunriseGhostTargetWindow : DefaultWindow
 
         foreach (var warp in _playerWarps)
         {
-            if (warp.IsDead)
+            if (warp.IsDead) // Мертвые
                 _deadPlayers.Add(warp);
-            else if (warp.IsLeft)
+            else if (warp.IsLeft) // Ливнувшие
                 _leftPlayers.Add(warp);
-            else if (warp.IsAlive)
+            else if (!warp.IsDead) // Живые. Как в крите, так и полноценное живые
                 _alivePlayers.Add(warp);
-            else if (warp.IsGhost)
+            else if (warp.IsGhost) // Призраки
                 _ghostPlayers.Add(warp);
         }
     }
