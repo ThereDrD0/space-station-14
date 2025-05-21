@@ -13,7 +13,7 @@ public sealed partial class SunriseGhostTargetWindow
     private static List<List<GhostWarpGlobalAntagonist>> SortAntagsByWeight(List<GhostWarpGlobalAntagonist> antagonists)
     {
         return antagonists
-            .GroupBy(a => a.Weight)
+            .GroupBy(a => a.Priority)
             .OrderBy(g => g.Key)
             .Select(g => g.ToList())
             .ToList();

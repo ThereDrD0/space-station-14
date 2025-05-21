@@ -62,10 +62,10 @@ public abstract partial class SharedGhostSystem
     [Serializable, NetSerializable]
     public record struct GhostWarpGlobalAntagonist(
         NetEntity Entity,
-        string PlayerName,
+        string Name,
         string AntagonistName,
         string AntagonistDescription,
-        int Weight) : INamedGhostWarp
+        int Priority) : INamedGhostWarp
     {
 
         /// <summary>
@@ -77,7 +77,7 @@ public abstract partial class SharedGhostSystem
         /// <summary>
         /// The display player name to be surfaced in the ghost warps menu
         /// </summary>
-        public string Name { get; } = PlayerName;
+        public string Name { get; } = Name;
 
         /// <summary>
         /// The display antagonist name to be surfaced in the ghost warps menu
@@ -92,8 +92,7 @@ public abstract partial class SharedGhostSystem
         /// <summary>
         /// A antagonist prototype id
         /// </summary>
-        /// TODO: Ренейм в Priority
-        public readonly int Weight = Weight;
+        public readonly int Priority = Priority;
 
     }
 

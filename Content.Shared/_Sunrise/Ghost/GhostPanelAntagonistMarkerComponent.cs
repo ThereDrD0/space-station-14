@@ -12,8 +12,8 @@ public sealed partial class GhostPanelAntagonistMarkerComponent : Component
     public LocId Description;
 
     /// <summary>
-    /// Вес антагониста. Влияет на расположение в панели призрака для сортировки по значимости
+    /// Приоритет отображения антагониста. Влияет на расположение в панели призрака для сортировки по значимости
     /// </summary>
     [DataField(required: true), AutoNetworkedField]
-    public int Weight;
+    public int Priority;
 }

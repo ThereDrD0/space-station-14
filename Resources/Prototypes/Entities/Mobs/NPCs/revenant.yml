@@ -10,7 +10,7 @@
   - type: GhostPanelAntagonistMarker
     name: ghost-panel-antagonist-revenant-name
     description: ghost-panel-antagonist-revenant-description
-    weight: 70
+    priority: 70
   # Sunrise edit end
   - type: Input
     context: "ghost"

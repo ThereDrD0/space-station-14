@@ -84,7 +84,7 @@ public sealed partial class GhostSystem
                 meta.EntityName,
                 component.Name,
                 component.Description,
-                component.Weight
+                component.Priority
             );
 
             yield return warp;

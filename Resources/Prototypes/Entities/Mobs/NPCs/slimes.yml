@@ -184,7 +184,7 @@
     - type: GhostPanelAntagonistMarker
       name: ghost-panel-antagonist-slime-name
       description: ghost-panel-antagonist-slime-description
-      weight: 80
+      priority: 80
 # Sunrise-end
 
 - type: entity
@@ -236,7 +236,7 @@
     - type: GhostPanelAntagonistMarker
       name: ghost-panel-antagonist-slime-name
       description: ghost-panel-antagonist-slime-description
-      weight: 80
+      priority: 80
 # Sunrise-end
 
 - type: entity
@@ -287,5 +287,5 @@
     - type: GhostPanelAntagonistMarker
       name: ghost-panel-antagonist-slime-name
       description: ghost-panel-antagonist-slime-description
-      weight: 80
+      priority: 80
 # Sunrise-end

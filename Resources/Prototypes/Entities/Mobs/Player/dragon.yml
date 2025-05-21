@@ -197,7 +197,7 @@
   - type: GhostPanelAntagonistMarker
     name: ghost-panel-antagonist-dragon-name
     description: ghost-panel-antagonist-dragon-description
-    weight: 60
+    priority: 60
   # Sunrise edit end
   - type: Dragon
     spawnRiftAction: ActionSpawnRift

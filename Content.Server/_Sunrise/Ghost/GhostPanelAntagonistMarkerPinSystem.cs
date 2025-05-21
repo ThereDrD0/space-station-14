@@ -32,7 +32,7 @@ public sealed class GhostPanelAntagonistMarkerPinSystem : EntitySystem
 
         marker.Name = "ghost-panel-antagonist-zombie-name";
         marker.Description = "ghost-panel-antagonist-zombie-description";
-        marker.Weight = 50;
+        marker.Priority = 50;
 
         Dirty(ent.Owner, marker);
     }
@@ -47,7 +47,7 @@ public sealed class GhostPanelAntagonistMarkerPinSystem : EntitySystem
 
         marker.Name = "ghost-panel-antagonist-cult-name";
         marker.Description = "ghost-panel-antagonist-cult-description";
-        marker.Weight = 30;
+        marker.Priority = 30;
 
         Dirty(ent.Owner, marker);
     }

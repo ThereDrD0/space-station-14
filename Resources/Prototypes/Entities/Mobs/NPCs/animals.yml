@@ -2652,7 +2652,7 @@
   - type: GhostPanelAntagonistMarker
     name: ghost-panel-antagonist-spider-name
     description: ghost-panel-antagonist-spider-description
-    weight: 100
+    priority: 100
   # Sunrise edit end
 
 - type: entity
@@ -2665,7 +2665,7 @@
     - type: GhostPanelAntagonistMarker
       name: ghost-panel-antagonist-spider-clown-name
       description: ghost-panel-antagonist-spider-clown-description
-      weight: 90
+      priority: 90
     # Sunrise edit end
     - type: Sprite
       drawdepth: Mobs
