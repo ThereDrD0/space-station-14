@@ -71,7 +71,7 @@ public sealed partial class Roadmap : DefaultWindow
         return column;
     }
 
-    private void GenerateGoals(IReadOnlyList<RoadmapGoal>goals, BoxContainer targetColumn)
+    private void GenerateGoals(IReadOnlyList<RoadmapGoal> goals, BoxContainer targetColumn)
     {
         foreach (var goal in goals)
         {
