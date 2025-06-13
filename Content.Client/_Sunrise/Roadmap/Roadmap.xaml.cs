@@ -30,7 +30,7 @@ public sealed partial class Roadmap : DefaultWindow
 
     private void PopulateRoadmap(RoadmapVersionsPrototype roadmapVersions)
     {
-        var headerLocale = Loc.GetString("ui-roadmap-header");
+        var headerLocale = _loc.GetString("ui-roadmap-header");
         var header = $"{headerLocale} {roadmapVersions.Fork}";
         Window.Title = header;
 
