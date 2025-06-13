@@ -67,6 +67,9 @@
       state: InProgress
   - name: roadmap-planned
     goals:
+    - name: station_goals_rework-name
+      desc: station_goals_rework-desc
+      state: Planned
     - name: borer-name
       desc: borer-desc
       state: Planned
