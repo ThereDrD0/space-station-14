@@ -32,22 +32,15 @@ public sealed partial class Roadmap : DefaultWindow
     {
         var headerLocale = _loc.GetString("ui-roadmap-header");
         var header = $"{headerLocale} {roadmapVersions.Fork}";
-        Window.Title = header;
+        Title = header;
 
         MainBox.RemoveAllChildren();
 
         foreach (var data in roadmapVersions.Versions)
         {
             var column = CreateVersionColumn(data.Name);
-            var targetColumn = new BoxContainer
-            {
-                Orientation = BoxContainer.LayoutOrientation.Vertical,
-                Margin = new Thickness(0, 0, 10, 0),
-            };
 
-            column.AddChild(targetColumn);
-
-            GenerateGoals(data.Goals, targetColumn);
+            GenerateGoals(data.Goals, column);
 
             MainBox.AddChild(column);
         }
