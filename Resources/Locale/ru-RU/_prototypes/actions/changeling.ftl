@@ -1,3 +1,5 @@
+ent-ActionRetractableItemArmBlade = Лезвие руки
+    .desc = Превратите свою плоть в плотское лезвие.
 ent-ActionEvolutionMenu = Открыть меню эволюции
     .desc = Открывает меню эволюции.
 ent-ActionAbsorbDNA = Поглотить ДНК
