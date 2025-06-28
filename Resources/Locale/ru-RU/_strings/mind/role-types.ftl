@@ -1,12 +1,11 @@
-role-type-crew-aligned-name = Сторонник экипажа
+role-type-crew-aligned-name = Экипаж станции
 role-type-solo-antagonist-name = Одиночный антагонист
 role-type-team-antagonist-name = Командный антагонист
 role-type-free-agent-name = Свободный агент
-role-type-familiar-name = Фамильяр
-role-type-silicon-name = Робот
-role-type-silicon-antagonist-name = Сбойный робот
-
-role-type-update-message = Ваша роль - [color = {$color}]{$role}[/color]
+role-type-familiar-name = Спутник
+role-type-silicon-name = Силикон
+role-type-silicon-antagonist-name = Враждебный силикон
+role-type-update-message = Ваша роль: [color = { $color }]{ $role }[/color]
 
 # If you change a color here, you might want to also change it in role_types.yml
 role-type-crew-aligned-color = #eeeeee
