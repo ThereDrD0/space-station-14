@@ -79,7 +79,7 @@ public abstract partial class SharedJumpSystem : EntitySystem
 
     public bool CanJump(EntityUid uid)
     {
-        if (!Enable)
+        if (!_enabled)
             return false;
 
         if (_gravity.IsWeightless(uid))
@@ -141,7 +141,7 @@ public abstract partial class SharedJumpSystem : EntitySystem
 
     private bool TryBunnyHop(Entity<JumpComponent> ent, PhysicsComponent body)
     {
-        if (!BunnyHopEnable)
+        if (!_bunnyHopEnabled)
             return false;
 
         if (TryComp<PullerComponent>(ent, out var pull) && _pulling.IsPulling(ent, pull))
@@ -199,7 +199,7 @@ public abstract partial class SharedJumpSystem : EntitySystem
     {
         base.Update(frameTime);
 
-        if (!BunnyHopEnable)
+        if (!_bunnyHopEnabled)
             return;
 
         var query = EntityQueryEnumerator<BunnyHopComponent, PhysicsComponent>();

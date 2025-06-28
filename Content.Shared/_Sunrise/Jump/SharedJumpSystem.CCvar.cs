@@ -2,10 +2,10 @@
 
 public abstract partial class SharedJumpSystem
 {
-    public bool Enable;
+    private static bool _enabled;
     private static float _deadChance;
 
-    public bool BunnyHopEnable;
+    private static bool _bunnyHopEnabled;
     private static TimeSpan _bunnyHopSpeedBoostWindow;
     private static float _bunnyHopSpeedUpPerJump;
     private static float _bunnyHopSpeedLimit;
@@ -19,9 +19,9 @@ public abstract partial class SharedJumpSystem
             _ignoredRecipients.Remove(args.SenderSession);
     }
 
-    private void OnJumpEnableChanged(bool enable)
+    private static void OnJumpEnableChanged(bool enable)
     {
-        Enable = enable;
+        _enabled = enable;
     }
 
     private static void OnJumpDeadChanceChanged(float value)
@@ -29,9 +29,9 @@ public abstract partial class SharedJumpSystem
         _deadChance = value;
     }
 
-    private void OnBunnyHopEnableChanged(bool enable)
+    private static void OnBunnyHopEnableChanged(bool enable)
     {
-        BunnyHopEnable = enable;
+        _bunnyHopEnabled = enable;
     }
 
     private static void OnBunnyHopMinSpeedThresholdChanged(float value)
