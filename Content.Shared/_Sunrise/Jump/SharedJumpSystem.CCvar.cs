@@ -11,7 +11,7 @@ public abstract partial class SharedJumpSystem
     private static float _bunnyHopSpeedLimit;
     private static float _bunnyHopMinSpeedThreshold;
 
-    private async void OnClientOptionJumpSound(ClientOptionDisableJumpSoundEvent ev, EntitySessionEventArgs args)
+    private void OnClientOptionJumpSound(ClientOptionDisableJumpSoundEvent ev, EntitySessionEventArgs args)
     {
         if (ev.Disable)
             _ignoredRecipients.Add(args.SenderSession);
