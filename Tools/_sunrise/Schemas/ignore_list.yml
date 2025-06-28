@@ -190,3 +190,5 @@ ignore_files:
   - delivery-spam.ftl
   - stacks.ftl
   - role-types.ftl
+  - rmobjective.ftl
+  - persistence-save-command.ftl
