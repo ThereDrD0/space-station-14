@@ -34,22 +34,22 @@ public abstract partial class SharedJumpSystem
         BunnyHopEnable = enable;
     }
 
-    private static  void OnBunnyHopMinSpeedThresholdChanged(float value)
+    private static void OnBunnyHopMinSpeedThresholdChanged(float value)
     {
         _bunnyHopMinSpeedThreshold = value;
     }
 
-    private static  void OnBunnyHopSpeedBoostWindowChanged(float value)
+    private static void OnBunnyHopSpeedBoostWindowChanged(float value)
     {
         _bunnyHopSpeedBoostWindow = TimeSpan.FromSeconds(value);
     }
 
-    private static  void OnBunnyHopSpeedUpPerJumpChanged(float value)
+    private static void OnBunnyHopSpeedUpPerJumpChanged(float value)
     {
         _bunnyHopSpeedUpPerJump = value;
     }
 
-    private static  void OnBunnyHopSpeedLimitChanged(float value)
+    private static void OnBunnyHopSpeedLimitChanged(float value)
     {
         _bunnyHopSpeedLimit = value;
     }
