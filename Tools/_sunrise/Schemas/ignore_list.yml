@@ -157,6 +157,11 @@ ignore_list:
   - SS14
   - scar-h
   - N
+  - $amount
+  - '{$amount ->'
+  - '{$linked ->'
+  - <username>
+  - <index>
 
 ignore_files:
   - 'italian.ftl'
@@ -181,3 +186,7 @@ ignore_files:
   - 'spells-actions.ftl'
   - artifact-component.ftl
   - plant-analyzer-component.ftl
+  - xenoborg.ftl
+  - delivery-spam.ftl
+  - stacks.ftl
+  - role-types.ftl
