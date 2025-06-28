@@ -6,7 +6,7 @@ namespace Content.Shared._Sunrise.Jump;
 public sealed partial class BunnyHopComponent : Component
 {
     public TimeSpan LastLandingTime = TimeSpan.Zero;
-    public float SpeedMultiplier  = 1.0f;
+    public float SpeedMultiplier = 1.0f;
 
     public bool CanBunnyHop => SpeedMultiplier > 1.0f;
 };
