@@ -133,7 +133,7 @@ public abstract partial class SharedJumpSystem : EntitySystem
             ent.Comp.OriginalCollisionMasks[id] = fixture.CollisionMask;
             ent.Comp.OriginalCollisionLayers[id] = fixture.CollisionLayer;
 
-            _physics.RemoveCollisionMask(ent, id, fixture, (int) CollisionGroup.LowImpassable, manager: fixtures);
+            _physics.RemoveCollisionMask(ent, id, fixture, (int) CollisionGroup.MidImpassable, manager: fixtures);
         }
 
         TryBunnyHop(ent, body);
