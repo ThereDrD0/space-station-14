@@ -124,7 +124,7 @@ public abstract partial class SharedJumpSystem : EntitySystem
         //_staminaSystem.TakeStaminaDamage(uid, 10);
 
         if (_net.IsServer)
-            _audio.PlayEntity(_audio.ResolveSound(JumpSound), Filter.Pvs(ent).RemovePlayers(_ignoredRecipients), ent, true, AudioParams.Default.WithVolume(-5f));
+            _audio.PlayEntity(JumpSound, Filter.Pvs(ent).RemovePlayers(_ignoredRecipients), ent, true, AudioParams.Default.WithVolume(-5f));
 
         EnsureComp<CanMoveInAirComponent>(ent);
         _physics.SetBodyStatus(ent, body, BodyStatus.InAir);
