@@ -8,6 +8,8 @@ using Content.Server.NPC.HTN;
 using Content.Server.NPC.Systems;
 using Content.Shared._Sunrise.Pets;
 using Content.Shared.Mind;
+using Content.Shared.Mobs;
+using Content.Shared.Mobs.Systems;
 using Content.Shared.Popups;
 using Robust.Server.Player;
 using Robust.Shared.Console;
@@ -26,6 +28,7 @@ public sealed class PettingSystem : SharedPettingSystem
     [Dependency] private readonly SharedMindSystem _mind = default!;
     [Dependency] private readonly AdminSystem _admin = default!;
     [Dependency] private readonly GhostRoleSystem _ghostRole = default!;
+    [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly IConsoleHost _console = default!;
     [Dependency] private readonly IPlayerManager _player = default!;
 
@@ -40,30 +43,11 @@ public sealed class PettingSystem : SharedPettingSystem
 
         SubscribeNetworkEvent<PetSetGhostAvaliable>(OnPetGhostAvailable);
         SubscribeNetworkEvent<PetSetName>(OnPetChangeNameRequest);
+
+        SubscribeLocalEvent<MobStateChangedEvent>(OnKill);
     }
 
-    #region Base petting
-
-    /// <summary>
-    /// Метод, работающий с логикой НПС питомца.
-    /// Задает питомцу переданный приказ и заставляет выполнять его бесконечно, пока не придет новый.
-    /// </summary>
-    /// <param name="uid"></param>
-    /// <param name="orderType"></param>
-    private void UpdatePetNpc(EntityUid uid, PetOrderType orderType)
-    {
-        if (!TryComp<HTNComponent>(uid, out var htn))
-            return;
-
-        if (htn.Plan != null)
-            _htn.ShutdownPlan(htn);
-
-        // Задаем переданный приказ
-        _npc.SetBlackboard(uid, NPCBlackboard.CurrentOrders, orderType);
-
-        // Заставляем бесконечно выполнять теукщий приказ
-        _htn.Replan(htn);
-    }
+    #region Events
 
     /// <summary>
     /// Метод, вызываемый, когда игрок изменяет текущий приказ своему питомцу через меню управления
@@ -87,43 +71,8 @@ public sealed class PettingSystem : SharedPettingSystem
     /// <param name="args">Ивент типа PetSetAILogicEvent, передающий текущий приказ питомцу</param>
     private void Pet(Entity<PettableOnInteractComponent> pet, ref PetSetAILogicEvent args)
     {
-        var master = pet.Comp.Master;
-
-        // Питомец не может следовать за кем-то без хозяина
-        if (!master.HasValue)
-            return;
-
-        // Задаем питомцу задачу следовать за хозяином
-        switch (args.Order)
-        {
-            case PetOrderType.Follow:
-                _npc.SetBlackboard(pet,
-                    NPCBlackboard.FollowTarget,
-                    new EntityCoordinates(master.Value, Vector2.Zero));
-                break;
-
-            case PetOrderType.Stay:
-                _npc.SetBlackboard(pet,
-                    NPCBlackboard.FollowTarget,
-                    new EntityCoordinates(pet, Vector2.Zero));
-                break;
-
-            case PetOrderType.Attack:
-                if (!args.Target.HasValue)
-                    break;
-
-                _npc.SetBlackboard(pet,
-                    NPCBlackboard.CurrentOrderedTarget,
-                    args.Target);
-                break;
-        }
-
-        UpdatePetNpc(pet, args.Order);
+        UpdatePetOrder(pet, args.Order, args.Target);
     }
-
-    #endregion
-
-    #region Petting events
 
     /// <summary>
     /// Метод, вызываемый при переключении разумности питомца в его меню управления.
@@ -194,6 +143,80 @@ public sealed class PettingSystem : SharedPettingSystem
             Loc.GetString("pet-rename-label"),
             Loc.GetString("pet-name-label"),
             (string newName) => Rename(pet, master.Value, newName));
+    }
+
+    private void OnKill(MobStateChangedEvent ev)
+    {
+        if (!_mobState.IsIncapacitated(ev.Target))
+            return;
+
+        if (!TryComp<PettableOnInteractComponent>(ev.Origin, out var petComponent))
+            return;
+
+        // TODO: Довольный звук от питомца
+
+        UpdatePetOrder((ev.Origin.Value, petComponent), PetOrderType.Follow);
+    }
+
+    #endregion
+
+    #region Logic
+
+    /// <summary>
+    /// Метод, работающий с логикой НПС питомца.
+    /// Задает питомцу переданный приказ и заставляет выполнять его бесконечно, пока не придет новый.
+    /// </summary>
+    /// <param name="uid"></param>
+    /// <param name="orderType"></param>
+    private void UpdatePetNpc(EntityUid uid, PetOrderType orderType)
+    {
+        if (!TryComp<HTNComponent>(uid, out var htn))
+            return;
+
+        if (htn.Plan != null)
+            _htn.ShutdownPlan(htn);
+
+        // Задаем переданный приказ
+        _npc.SetBlackboard(uid, NPCBlackboard.CurrentOrders, orderType);
+
+        // Заставляем бесконечно выполнять теукщий приказ
+        _htn.Replan(htn);
+    }
+
+    private void UpdatePetOrder(Entity<PettableOnInteractComponent> pet, PetOrderType order, EntityUid? target = null)
+    {
+        var master = pet.Comp.Master;
+
+        // Питомец не может следовать за кем-то без хозяина
+        if (!master.HasValue)
+            return;
+
+        // Задаем питомцу задачу следовать за хозяином
+        switch (order)
+        {
+            case PetOrderType.Follow:
+                _npc.SetBlackboard(pet,
+                    NPCBlackboard.FollowTarget,
+                    new EntityCoordinates(master.Value, Vector2.Zero));
+                break;
+
+            case PetOrderType.Stay:
+                _npc.SetBlackboard(pet,
+                    NPCBlackboard.FollowTarget,
+                    new EntityCoordinates(pet, Vector2.Zero));
+                break;
+
+            case PetOrderType.Attack:
+                if (!target.HasValue)
+                    break;
+
+                _npc.SetBlackboard(pet,
+                    NPCBlackboard.CurrentOrderedTarget,
+                    target);
+                break;
+        }
+
+        UpdatePetNpc(pet, order);
     }
 
     /// <summary>
