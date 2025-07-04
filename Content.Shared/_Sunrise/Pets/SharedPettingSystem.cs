@@ -205,36 +205,46 @@ public abstract class SharedPettingSystem : EntitySystem
     /// Работает только 1 раз, после первого приручения
     /// </summary>
     /// <param name="master">Entity(PetOnInteractComponent) его хозяина</param>
-    private void TryAddOpenUiAction(Entity<PetOnInteractComponent> master)
+    private bool TryAddOpenUiAction(Entity<PetOnInteractComponent> master)
     {
         // Если питомцев больше одного - это не первое приручение и акшен уже имеется, разворачиваемся
         if (master.Comp.Pets.Count != 1)
-            return;
+            return false;
 
         // Добавляем акшен хозяину и добавляем его в список акшенов
         var action = _actions.AddAction(master, OpenUiAction);
-        master.Comp.PetActions.Add(action);
+
+        if (!action.HasValue)
+            return false;
+
+        master.Comp.PetActions.Add(action.Value);
+        return true;
     }
 
     /// <summary>
-    /// Добавляет акшен выбирающий питомцам цель атаки
+    /// Добавляет акшен выбирающий питомцам цель атаки.
     /// Работает только 1 раз, после добавления питомца с возможностью атаковать.
     /// </summary>
     /// <param name="master">Entity(PetOnInteractComponent) его хозяина</param>
-    private void TryAddAttackAction(Entity<PetOnInteractComponent> master)
+    private bool TryAddAttackAction(Entity<PetOnInteractComponent> master)
     {
         // Список всех питомцев, имеющих возможность атаковать
-        var agressivePetList =
+        var aggressivePetList =
             master.Comp.Pets.Where(x => TryComp<PettableOnInteractComponent>(x, out var petComponent)
                                    && petComponent.AllowedOrders.Contains(PetOrderType.Attack));
 
         // Если таких питомцев больше одного - это не первое приручение и акшен уже имеется, разворачиваемся
-        if (agressivePetList.Count() != 1)
-            return;
+        if (aggressivePetList.Count() != 1)
+            return false;
 
         // Добавляем акшен хозяину и добавляем его в список акшенов
         var action = _actions.AddAction(master, AttackTargetAction);
-        master.Comp.PetActions.Add(action);
+
+        if (!action.HasValue)
+            return false;
+
+        master.Comp.PetActions.Add(action.Value);
+        return true;
     }
 
     private void OnLoadoutSpawn(Entity<PettableOnInteractComponent> pet, ref LoadoutPetSpawned args)

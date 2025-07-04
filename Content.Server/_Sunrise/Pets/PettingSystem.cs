@@ -1,4 +1,6 @@
-﻿using System.Numerics;
+﻿using System.Linq;
+using System.Numerics;
+using Content.Server.Actions;
 using Content.Server.Administration;
 using Content.Server.Administration.Systems;
 using Content.Server.Ghost.Roles;
@@ -15,6 +17,8 @@ using Robust.Server.Player;
 using Robust.Shared.Console;
 using Robust.Shared.Map;
 using Robust.Shared.Player;
+using Robust.Shared.Prototypes;
+using Robust.Shared.Utility;
 
 namespace Content.Server._Sunrise.Pets;
 
@@ -29,10 +33,13 @@ public sealed class PettingSystem : SharedPettingSystem
     [Dependency] private readonly AdminSystem _admin = default!;
     [Dependency] private readonly GhostRoleSystem _ghostRole = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;
+    [Dependency] private readonly ActionsSystem _actions = default!;
     [Dependency] private readonly IConsoleHost _console = default!;
     [Dependency] private readonly IPlayerManager _player = default!;
 
     private const int MaxPetNameLenght = 30;
+
+    private static readonly EntProtoId PetInterruptAttackActionId = "PetInterruptAttackAction";
 
     public override void Initialize()
     {
@@ -44,6 +51,7 @@ public sealed class PettingSystem : SharedPettingSystem
         SubscribeNetworkEvent<PetSetGhostAvaliable>(OnPetGhostAvailable);
         SubscribeNetworkEvent<PetSetName>(OnPetChangeNameRequest);
 
+        SubscribeLocalEvent<PetOnInteractComponent, PetInterruptAttackEvent>(OnAttackInterrupt);
         SubscribeLocalEvent<MobStateChangedEvent>(OnKill);
     }
 
@@ -71,7 +79,7 @@ public sealed class PettingSystem : SharedPettingSystem
     /// <param name="args">Ивент типа PetSetAILogicEvent, передающий текущий приказ питомцу</param>
     private void Pet(Entity<PettableOnInteractComponent> pet, ref PetSetAILogicEvent args)
     {
-        UpdatePetOrder(pet, args.Order, args.Target);
+        UpdatePetOrder(pet.AsNullable(), args.Order, args.Target);
     }
 
     /// <summary>
@@ -145,6 +153,10 @@ public sealed class PettingSystem : SharedPettingSystem
             (string newName) => Rename(pet, master.Value, newName));
     }
 
+    /// <summary>
+    /// Метод, вызываемый при убистве человека.
+    /// Нужен, чтобы заставить питомца следовать за хозяином после успешного убийства приказом атааки
+    /// </summary>
     private void OnKill(MobStateChangedEvent ev)
     {
         if (!_mobState.IsIncapacitated(ev.Target))
@@ -153,9 +165,30 @@ public sealed class PettingSystem : SharedPettingSystem
         if (!TryComp<PettableOnInteractComponent>(ev.Origin, out var petComponent))
             return;
 
+        if (!TryComp<PetOnInteractComponent>(petComponent.Master, out var masterComponent))
+            return;
+
         // TODO: Довольный звук от питомца
 
-        UpdatePetOrder((ev.Origin.Value, petComponent), PetOrderType.Follow);
+        // Поддержка множества питомцев
+        // Проходимся по всем питомцам хозяина и заставляем следовать за ним
+        // TODO: Возможность получить только участвовавших в битве и менять приказ лишь им
+        foreach (var pet in masterComponent.Pets)
+        {
+            UpdatePetOrder(pet, PetOrderType.Follow);
+        }
+    }
+
+    /// <summary>
+    /// Метод, вызываемый при отмене приказа атаки хозяином.
+    /// Меняет приказ с атаки на следование за хозяином для каждого питомца.
+    /// </summary>
+    private void OnAttackInterrupt(Entity<PetOnInteractComponent> master, ref PetInterruptAttackEvent args)
+    {
+        foreach (var pet in master.Comp.Pets)
+        {
+            UpdatePetOrder(pet, PetOrderType.Follow);
+        }
     }
 
     #endregion
@@ -183,8 +216,11 @@ public sealed class PettingSystem : SharedPettingSystem
         _htn.Replan(htn);
     }
 
-    private void UpdatePetOrder(Entity<PettableOnInteractComponent> pet, PetOrderType order, EntityUid? target = null)
+    public void UpdatePetOrder(Entity<PettableOnInteractComponent?> pet, PetOrderType order, EntityUid? target = null)
     {
+        if (!Resolve(pet, ref pet.Comp))
+            return;
+
         var master = pet.Comp.Master;
 
         // Питомец не может следовать за кем-то без хозяина
@@ -195,12 +231,18 @@ public sealed class PettingSystem : SharedPettingSystem
         switch (order)
         {
             case PetOrderType.Follow:
+
+                RemoveInterruptAction(master.Value);
+
                 _npc.SetBlackboard(pet,
                     NPCBlackboard.FollowTarget,
                     new EntityCoordinates(master.Value, Vector2.Zero));
                 break;
 
             case PetOrderType.Stay:
+
+                RemoveInterruptAction(master.Value);
+
                 _npc.SetBlackboard(pet,
                     NPCBlackboard.FollowTarget,
                     new EntityCoordinates(pet, Vector2.Zero));
@@ -210,6 +252,8 @@ public sealed class PettingSystem : SharedPettingSystem
                 if (!target.HasValue)
                     break;
 
+                AddInterruptAction(master.Value);
+
                 _npc.SetBlackboard(pet,
                     NPCBlackboard.CurrentOrderedTarget,
                     target);
@@ -217,6 +261,69 @@ public sealed class PettingSystem : SharedPettingSystem
         }
 
         UpdatePetNpc(pet, order);
+    }
+
+    /// <summary>
+    /// Добавляет акшен прерывания атаки, если его еще нет.
+    /// </summary>
+    private void AddInterruptAction(Entity<PetOnInteractComponent?> master)
+    {
+        if (!Resolve(master, ref master.Comp))
+            return;
+
+        var isActionPresent = master.Comp.PetActions
+            .Where(IsActionPresent)
+            .Any();
+
+        if (isActionPresent)
+            return;
+
+        var action = _actions.AddAction(master, PetInterruptAttackActionId);
+
+        if (!action.HasValue)
+            return;
+
+        master.Comp.PetActions.Add(action.Value);
+        Dirty(master);
+    }
+
+    /// <summary>
+    /// Убирает акшен прерывания атаки, если он есть
+    /// </summary>
+    private void RemoveInterruptAction(Entity<PetOnInteractComponent?> master)
+    {
+        if (!Resolve(master, ref master.Comp))
+            return;
+
+        var action = master.Comp.PetActions
+            .Where(IsActionPresent)
+            .FirstOrNull();
+
+        if (!action.HasValue)
+            return;
+
+        _actions.RemoveAction(master.Owner, action);
+        master.Comp.PetActions.Remove(action.Value);
+
+        Dirty(master);
+    }
+
+    /// <summary>
+    /// Проверяет, является ли данный акшен акшеном прерывания атаки.
+    /// </summary>
+    /// <param name="action"><see cref="EntityUid"/>Акшен, проходящий проверку</param>
+    /// <returns>Является ли акшеном прерывания атаки или нет.</returns>
+    private bool IsActionPresent(EntityUid action)
+    {
+        var meta = MetaData(action);
+
+        if (meta.EntityPrototype == null)
+            return false;
+
+        if (meta.EntityPrototype == PetInterruptAttackActionId)
+            return true;
+
+        return false;
     }
 
     /// <summary>

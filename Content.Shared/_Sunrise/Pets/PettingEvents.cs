@@ -112,13 +112,17 @@ public sealed partial class PetSetName : PetBaseEvent
 }
 
 /// <summary>
-/// Ивент вызываемый при использоваии акшена у хозяина для открытия меню всех питомцев.
+/// Ивент вызываемый при использовании акшена у хозяина для открытия меню всех питомцев.
 /// </summary>
 public sealed partial class PetOpenAllUiEvent : InstantActionEvent {}
 
+/// <summary>
+/// Ивент вызываемый при использовании акшена у хозяина для отмены атаки.
+/// </summary>
+public sealed partial class PetInterruptAttackEvent : InstantActionEvent {}
 
 /// <summary>
-/// Ивент вызываемый при использоваии акшена у хозяина.
+/// Ивент вызываемый при использовании акшена у хозяина.
 /// Выбирает цель для атаки питомцев
 /// </summary>
 public sealed partial class PetAttackTargetEvent : EntityTargetActionEvent {}
