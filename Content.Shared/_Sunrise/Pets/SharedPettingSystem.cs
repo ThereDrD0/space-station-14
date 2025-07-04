@@ -1,11 +1,9 @@
 ﻿using System.Linq;
 using Content.Shared.Actions;
 using Content.Shared.Bed.Sleep;
-using Content.Shared.Cloning;
 using Content.Shared.Cloning.Events;
 using Content.Shared.IdentityManagement;
 using Content.Shared.Interaction;
-using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Popups;
 using Robust.Shared.Audio.Systems;
@@ -14,26 +12,26 @@ using Robust.Shared.Timing;
 
 namespace Content.Shared._Sunrise.Pets;
 
-public sealed class SharedPettingSystem : EntitySystem
+public abstract class SharedPettingSystem : EntitySystem
 {
     [Dependency] private readonly SharedAudioSystem _audio = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly SharedUserInterfaceSystem _ui = default!;
     [Dependency] private readonly SharedActionsSystem _actions = default!;
-    [Dependency] private readonly MobStateSystem _mobStateSystem = default!;
+    [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
 
     // Стандартный приказ, выдающийся при приручении
     private const PetOrderType DefaultOrder = PetOrderType.Follow;
     private const PetOrderType AttackOrder = PetOrderType.Attack;
 
     // Айди акшенов, которые будут выдаваться хозяину при появлении питомца.
-    private readonly EntProtoId OpenUiAction = "PetOpenAllUiAction";
-    private readonly EntProtoId AttackTargetAction = "PetAttackTargetAction";
+    private static readonly EntProtoId OpenUiAction = "PetOpenAllUiAction";
+    private static readonly EntProtoId AttackTargetAction = "PetAttackTargetAction";
 
     // Эффекты
-    private readonly EntProtoId PettingSuccessEffect = "EffectHearts";
+    private static readonly EntProtoId PettingSuccessEffect = "EffectHearts";
 
     public override void Initialize()
     {
@@ -73,7 +71,7 @@ public sealed class SharedPettingSystem : EntitySystem
             return;
 
         // Проверяем, жив ли таргет.
-        if (TryComp<MobStateComponent>(args.Target, out var state) && !_mobStateSystem.IsAlive(args.Target, state))
+        if (!_mobState.IsAlive(args.Target))
             return;
 
         // Объявляем перменные, чтобы несколько раз не передавать ее длинную расшифровку.
@@ -108,7 +106,7 @@ public sealed class SharedPettingSystem : EntitySystem
         Dirty(master);
 
         // Вызываем ивент, который сообщает о смене владельца
-        RaiseLocalEvent(pet, new PetMasterChanged { NewMaster = master });
+        RaiseLocalEvent(pet, new PetMasterChanged(master));
 
         return true;
     }

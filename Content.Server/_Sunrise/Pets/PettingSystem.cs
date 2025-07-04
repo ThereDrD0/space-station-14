@@ -16,18 +16,18 @@ using Robust.Shared.Player;
 
 namespace Content.Server._Sunrise.Pets;
 
-public sealed class PettingSystem : EntitySystem
+public sealed class PettingSystem : SharedPettingSystem
 {
     [Dependency] private readonly HTNSystem _htn = default!;
     [Dependency] private readonly NPCSystem _npc = default!;
     [Dependency] private readonly MetaDataSystem _metaData = default!;
     [Dependency] private readonly QuickDialogSystem _quickDialog = default!;
-    [Dependency] private readonly IPlayerManager _playerManager = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly SharedMindSystem _mind = default!;
     [Dependency] private readonly AdminSystem _admin = default!;
-    [Dependency] private readonly GhostRoleSystem _ghostRoleSystem = default!;
+    [Dependency] private readonly GhostRoleSystem _ghostRole = default!;
     [Dependency] private readonly IConsoleHost _console = default!;
+    [Dependency] private readonly IPlayerManager _player = default!;
 
     private const int MaxPetNameLenght = 30;
 
@@ -50,7 +50,7 @@ public sealed class PettingSystem : EntitySystem
     /// </summary>
     /// <param name="uid"></param>
     /// <param name="orderType"></param>
-    private void UpdatePetNPC(EntityUid uid, PetOrderType orderType)
+    private void UpdatePetNpc(EntityUid uid, PetOrderType orderType)
     {
         if (!TryComp<HTNComponent>(uid, out var htn))
             return;
@@ -118,7 +118,7 @@ public sealed class PettingSystem : EntitySystem
                 break;
         }
 
-        UpdatePetNPC(pet, args.Order);
+        UpdatePetNpc(pet, args.Order);
     }
 
     #endregion
@@ -147,16 +147,16 @@ public sealed class PettingSystem : EntitySystem
                 return;
 
             // Получаем сессию хозяина питомца, чтобы открыть ему окно управления
-            if (!_playerManager.TryGetSessionByEntity(master.Value, out var masterSession))
+            if (!_player.TryGetSessionByEntity(master.Value, out var masterSession))
                 return;
 
             // Открываем окно для настройки гостроли питомца.
-            _ghostRoleSystem.OpenMakeGhostRoleEui(masterSession, pet);
+            _ghostRole.OpenMakeGhostRoleEui(masterSession, pet);
         }
         else
         {
             // Получаем сессию питомца, чтобы прописать ему команду
-            if (!_playerManager.TryGetSessionByEntity(pet, out var petSession))
+            if (!_player.TryGetSessionByEntity(pet, out var petSession))
                 return;
 
             // Убираем компонент гостроли
@@ -186,7 +186,7 @@ public sealed class PettingSystem : EntitySystem
             return;
 
         // Получаем сессию хозяина питомца
-        if (!_playerManager.TryGetSessionByEntity(master.Value, out var masterSession))
+        if (!_player.TryGetSessionByEntity(master.Value, out var masterSession))
             return;
 
         // Открываем меню для переименовывания
@@ -200,6 +200,7 @@ public sealed class PettingSystem : EntitySystem
     /// Выделенная в отдельный метод логика переименовывания питомца.
     /// </summary>
     /// <param name="target">EntityUid питомца</param>
+    /// <param name="performer">EntityUid сущности, которая совершает переименовывание</param>
     /// <param name="name">Новое выбранное имя питомца</param>
     private void Rename(EntityUid target, EntityUid performer, string name)
     {
